@@ -1,1 +1,29 @@
-<p>login works!</p>
+
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="login-title">Benvenuto</h2>
+    <p class="login-subtitle">Effettua l'accesso per continuare</p>
+
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="username">Nome utente</label>
+        <input id="username" type="text" pInputText placeholder="Inserisci nome utente" />
+      </div>
+      <div class="p-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" pInputText placeholder="Inserisci password" />
+      </div>
+    </div>
+
+    <button pButton type="button" class="p-button-rounded p-button-primary login-button">Accedi</button>
+
+    <p-divider layout="vertical">o</p-divider>
+
+    <button pButton type="button" class="p-button-rounded p-button-outlined login-google"></button>
+
+    <p class="login-footer">
+      Non hai un account? <a href="/register">Registrati</a>
+    </p>
+  </div>
+</div>
+

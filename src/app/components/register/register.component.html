@@ -1,1 +1,62 @@
-<p>register works!</p>
+<div class="register-container">
+  <div class="register-card">
+    <h2 class="register-title">Crea un nuovo account</h2>
+
+    <div class="p-fluid">
+      <!-- Username -->
+      <div class="p-field">
+        <label for="username">Username</label>
+        <input id="username" type="text" pInputText placeholder="Inserisci username" />
+      </div>
+
+      <!-- Password -->
+      <div class="p-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" pInputText placeholder="Inserisci password" />
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Nome -->
+      <div class="p-field">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" pInputText placeholder="Inserisci nome" />
+      </div>
+
+      <!-- Cognome -->
+      <div class="p-field">
+        <label for="cognome">Cognome</label>
+        <input id="cognome" type="text" pInputText placeholder="Inserisci cognome" />
+      </div>
+
+      <!-- Data di Nascita -->
+      <div class="p-field">
+        <label for="dataNascita">Data di Nascita</label>
+        <input id="dataNascita" type="date" />
+      </div>
+
+      <!-- Luogo di Nascita -->
+      <div class="p-field">
+        <label for="luogoNascita">Luogo di Nascita</label>
+        <input id="luogoNascita" type="text" pInputText placeholder="Inserisci il luogo di nascita" />
+      </div>
+
+      <!-- Codice Fiscale -->
+      <div class="p-field">
+        <label for="cf">Codice Fiscale</label>
+        <input id="cf" type="text" pInputText maxlength="16" placeholder="Inserisci codice fiscale" />
+      </div>
+
+      <!-- Numero di Telefono -->
+      <div class="p-field">
+        <label for="telefono">Telefono</label>
+        <input id="telefono" type="tel" pInputText placeholder="Inserisci numero di telefono" />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button pButton type="button" label="Registrati" class="p-button-rounded p-button-primary register-button"></button>
+  </div>
+</div>
+
+<div> sei gia registrato? vai alla <a class="text-primary" href="/login"> login</a></div>
