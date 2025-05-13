@@ -1,4 +1,20 @@
+@import "color";
 
 pointer {
   cursor: pointer;
+}
+
+body {
+  background-color: $color-background !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+button {
+  background-color: $color-primary !important;
+  color: $color-secondary !important;
+  border: #CD9552 1px solid !important;
+}
+
+.myshadow {
+  box-shadow: #2c2b2b 3px 6px 8px !important;
 }

@@ -1,29 +1,121 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
 
-<div class="login-container">
-  <div class="login-card">
-    <h2 class="login-title">Benvenuto</h2>
-    <p class="login-subtitle">Effettua l'accesso per continuare</p>
+    <div class="col-12 col-md-6 col-lg-5">
 
-    <div class="p-fluid">
-      <div class="p-field">
-        <label for="username">Nome utente</label>
-        <input id="username" type="text" pInputText placeholder="Inserisci nome utente" />
-      </div>
-      <div class="p-field">
-        <label for="password">Password</label>
-        <input id="password" type="password" pInputText placeholder="Inserisci password" />
-      </div>
+
+      <ng-container *ngIf="this.isLogin">
+        <div class="mt-4 myshadow">
+          <p-panel>
+
+            <div class="d-flex justify-content-center mb-3">
+              <img ngSrc="assets/logo-round.jpg" alt="logo" height="60" width="60">
+            </div>
+            <h5 class="text-center">Welcome</h5>
+            <h1 class="text-center mb-3">Login</h1>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="username"/>
+                <label for="on_label">Username</label>
+              </p-floatlabel>
+
+              <p-floatlabel variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="password"/>
+                <label for="on_label">Password</label>
+              </p-floatlabel>
+              <p-button type="submit" class=" btn button p-0 my-2" label="Effettua login"/>
+
+              <ul>
+                <li class="text-danger"
+                    *ngIf="loginForm.controls.username.hasError('required')
+                    && loginForm.controls.username.touched">
+                  Inserisci username
+                </li>
+                <li class="text-danger"
+                    *ngIf="loginForm.controls.password.hasError('required')
+                      && loginForm.controls.password.touched">
+                  Inserisci password
+                </li>
+              </ul>
+
+
+            </form>
+
+            <p class="mt-4">Non sei ancora registrato? clicca <a routerLink="/register">qui</a></p>
+
+          </p-panel>
+        </div>
+      </ng-container>
+
+
+      <ng-container *ngIf="!this.isLogin">
+        <div class="mt-4 myshadow">
+          <p-panel>
+
+            <div class="d-flex justify-content-center mb-3">
+              <img ngSrc="assets/logo-round.jpg" alt="logo" height="60" width="60">
+            </div>
+            <h5 class="text-center">Welcome</h5>
+            <h1 class="text-center mb-3">Registrazione</h1>
+
+            <form>
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Username</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Password</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Conferma Password</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Nome</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Cognome</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">CF</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Data di nascita</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Luogo di nascita</label>
+              </p-floatlabel>
+
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <label for="on_label">Telefono</label>
+              </p-floatlabel>
+              <p-button class=" btn button p-0 my-2" label="Effettua Registrazione"/>
+
+            </form>
+
+            <p class="mt-4">Sei gia registrato? clicca <a routerLink="/login">qui</a></p>
+
+          </p-panel>
+        </div>
+      </ng-container>
+
     </div>
 
-    <button pButton type="button" class="p-button-rounded p-button-primary login-button">Accedi</button>
-
-    <p-divider layout="vertical">o</p-divider>
-
-    <button pButton type="button" class="p-button-rounded p-button-outlined login-google"></button>
-
-    <p class="login-footer">
-      Non hai un account? <a href="/register">Registrati</a>
-    </p>
   </div>
 </div>
+
 
