@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ILogin} from '../interfaces/auth';
+import {ILogin, IRegister} from '../interfaces/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,16 @@ export class AuthService {
   }
 
   public login(data: ILogin) {
-
     const headers = {
       'Content-Type': 'application/json',
     }
     return this.http.post(`${this.url}/login`, data, {headers})
+  }
+
+  public register(data: IRegister) {
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+    return this.http.post(`${this.url}/register`, data, {headers})
   }
 }

@@ -1,0 +1,1 @@
+-[] controllare i dati quando viene fatta la registrazione, lato front e lato server 

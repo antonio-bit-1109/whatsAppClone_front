@@ -13,7 +13,7 @@
             </div>
             <h5 class="text-center">Welcome</h5>
             <h1 class="text-center mb-3">Login</h1>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
               <p-floatlabel class="my-3" variant="on">
                 <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="username"/>
                 <label for="on_label">Username</label>
@@ -23,7 +23,8 @@
                 <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="password"/>
                 <label for="on_label">Password</label>
               </p-floatlabel>
-              <p-button type="submit" class=" btn button p-0 my-2" label="Effettua login"/>
+              <p-button type="submit" [disabled]="!this.loginForm.valid" class=" btn button p-0 my-2"
+                        label="Effettua login"/>
 
               <ul>
                 <li class="text-danger"
@@ -58,52 +59,57 @@
             <h5 class="text-center">Welcome</h5>
             <h1 class="text-center mb-3">Registrazione</h1>
 
-            <form>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="username"/>
                 <label for="on_label">Username</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="password"/>
                 <label for="on_label">Password</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="confermaPassword"/>
                 <label for="on_label">Conferma Password</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="nome"/>
                 <label for="on_label">Nome</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="cognome"/>
                 <label for="on_label">Cognome</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="cf"/>
                 <label for="on_label">CF</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <p-datepicker [showIcon]="true" [style]="{'width': '100%'}"
+                              formControlName="dataNascita"></p-datepicker>
                 <label for="on_label">Data di nascita</label>
               </p-floatlabel>
 
+
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="luogoNascita"/>
                 <label for="on_label">Luogo di nascita</label>
               </p-floatlabel>
 
               <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off"/>
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="telefono"/>
                 <label for="on_label">Telefono</label>
               </p-floatlabel>
-              <p-button class=" btn button p-0 my-2" label="Effettua Registrazione"/>
+
+
+              <p-button type="submit" [disabled]="!registerForm.valid" class=" btn button p-0 my-2"
+                        label="Effettua Registrazione"/>
 
             </form>
 
@@ -114,6 +120,51 @@
       </ng-container>
 
     </div>
+
+
+    <ng-container *ngIf="!this.registerForm.valid && this.registerForm.touched">
+      <div class="col-md-4 col-lg-3">
+        <div class="mt-4 myshadow">
+          <p-panel>
+            <div>
+              <h4>Attenzione:</h4>
+              <ul>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('username','required')">Username
+                  obbligatorio
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('password','required')">password
+                  obbligatoria
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('confermaPassword','required')">conferma
+                  password
+                  obbligatoria
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('nome','required')">nome obbligatorio</li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cognome','required')">cognome obbligatorio
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf','required')">codice fiscale
+                  obbligatorio
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('dataNascita','required')">data di nascita
+                  obbligatoria
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('luogoNascita','required')">luogo di nascita
+                  obbligatorio
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('telefono','required')">telefono
+                  obbligatorio
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf' , 'pattern')">
+                  Inserisci un codice fiscale valido
+                </li>
+
+              </ul>
+            </div>
+          </p-panel>
+        </div>
+      </div>
+    </ng-container>
+
 
   </div>
 </div>
