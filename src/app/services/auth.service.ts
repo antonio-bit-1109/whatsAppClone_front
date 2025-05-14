@@ -13,6 +13,10 @@ export class AuthService {
   }
 
   public login(data: ILogin) {
-    return this.http.post(`${this.url}/login`, data)
+
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+    return this.http.post(`${this.url}/login`, data, {headers})
   }
 }

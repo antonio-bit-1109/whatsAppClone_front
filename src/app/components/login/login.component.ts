@@ -10,6 +10,7 @@ import {AuthService} from '../../services/auth.service';
 import {ILogin} from '../../interfaces/auth';
 // @ts-ignore
 import {HttpErrorResponse} from '@angular/common/module.d-CnjH8Dlt';
+import {ToastMessageService} from '../../services/toast-message.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent {
     password: new FormControl("", Validators.required)
   })
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private toastService: ToastMessageService) {
   }
 
   onSubmit() {
@@ -48,10 +50,11 @@ export class LoginComponent {
 
     this.authService.login(loginData).subscribe({
       next: (resp) => {
-        console.log(resp)
+        this.toastService.show("success", "Login", "Login effettuato con successo.")
       },
       error: (err: HttpErrorResponse) => {
         console.error(err.error)
+        this.toastService.show("error", "Login", err.error['message'])
       }
     })
   }
