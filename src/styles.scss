@@ -4,6 +4,10 @@ pointer {
   cursor: pointer;
 }
 
+.primary_color {
+  color: $color-primary
+}
+
 body {
   background-color: $color-background !important;
   font-family: "Roboto", sans-serif !important;

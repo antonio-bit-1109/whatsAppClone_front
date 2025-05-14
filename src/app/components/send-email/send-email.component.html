@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-5">
+      <div class="mt-4 myshadow">
+        <p-panel>
+
+          <div class="d-flex justify-content-center mb-3">
+            <img ngSrc="assets/logo-rounded.png" alt="logo" height="60" width="60">
+          </div>
+
+          <h5 class="text-center">Inviami una</h5>
+          <h1 class="text-center mb-3">Email</h1>
+          <form [formGroup]="sendEmailForm" (ngSubmit)="sendEmail()">
+            <p-floatlabel class="my-3" variant="on">
+              <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="email"/>
+              <label for="on_label">Email</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="on">
+              <textarea type="text" class="w-100" id="on_label" autocomplete="off"
+                        formControlName="text"></textarea>
+              <label for="on_label">message</label>
+            </p-floatlabel>
+
+            <p-button type="submit" [disabled]="!sendEmailForm.valid" class=" btn button p-0 my-2"
+                      label="Invia messaggio"/>
+
+          </form>
+
+          <div class="d-flex justify-content-center align-items-center w-100 mt-5 gap-5">
+
+            <div>
+              <h6> Torna alla pagina di<a class="primary_color mx-1"
+                                          routerLink="/login">login</a></h6>
+            </div>
+
+
+            <div>
+              <h6> Torna alla pagina di<a class="primary_color mx-1"
+                                          routerLink="/registrazione">Registrazione</a></h6>
+            </div>
+
+
+          </div>
+
+
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
