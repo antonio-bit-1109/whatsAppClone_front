@@ -14,3 +14,13 @@ export interface IRegister {
   "telefono": string,
   "email": string
 }
+
+export interface ITokenStructure {
+  "image": string,
+  "role": string,
+  "id": number,
+  "sub": string,
+  "iat": number,
+  "exp": number
+  
+}

@@ -1,0 +1,19 @@
+<p-drawer [(visible)]="visible" [style]="{width: '300px'}" [closeOnEscape]="true"
+          position="left">
+  <app-logo-app classes="d-flex justify-content-center"></app-logo-app>
+  <p-menu styleClass="mt-4" [model]="items"/>
+
+</p-drawer>
+<div class="main-side-bar myshadow d-flex justify-content-center">
+
+  <p-button (click)="this.visible= true" size="small" icon="pi-search" [rounded]="true" severity="success"
+            [outlined]="true"
+            class="mt-2">☰
+  </p-button>
+</div>
+
+<div class="container-fluid">
+
+</div>
+
+

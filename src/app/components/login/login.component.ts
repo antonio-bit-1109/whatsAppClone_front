@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {InputText} from 'primeng/inputtext';
 import {FloatLabel} from 'primeng/floatlabel';
 import {Panel} from 'primeng/panel';
@@ -12,11 +12,11 @@ import {ILogin, IRegister} from '../../interfaces/auth';
 import {HttpErrorResponse} from '@angular/common/module.d-CnjH8Dlt';
 import {ToastMessageService} from '../../services/toast-message.service';
 import {DatePickerModule} from 'primeng/datepicker';
-import {pswMatchConfirmPsw} from '../../customValidators/pswMatchConfirmPsw';
+import {LogoAppComponent} from '../logo-app/logo-app.component';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, InputText, FloatLabel, Panel, NgOptimizedImage, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective],
+  imports: [CommonModule, InputText, FloatLabel, Panel, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective, LogoAppComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

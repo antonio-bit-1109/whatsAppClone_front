@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Panel} from 'primeng/panel';
-import {NgOptimizedImage} from '@angular/common';
+import {LogoAppComponent} from '../logo-app/logo-app.component';
 
 @Component({
   selector: 'app-error',
   imports: [
     Panel,
     RouterLink,
-    NgOptimizedImage
+    LogoAppComponent
   ],
   templateUrl: './error.component.html',
   styleUrl: './error.component.scss'
