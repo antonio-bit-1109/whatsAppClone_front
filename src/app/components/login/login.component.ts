@@ -3,7 +3,7 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {InputText} from 'primeng/inputtext';
 import {FloatLabel} from 'primeng/floatlabel';
 import {Panel} from 'primeng/panel';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
@@ -12,10 +12,11 @@ import {ILogin, IRegister} from '../../interfaces/auth';
 import {HttpErrorResponse} from '@angular/common/module.d-CnjH8Dlt';
 import {ToastMessageService} from '../../services/toast-message.service';
 import {DatePickerModule} from 'primeng/datepicker';
+import {pswMatchConfirmPsw} from '../../customValidators/pswMatchConfirmPsw';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, InputText, FloatLabel, Panel, NgOptimizedImage, Button, RouterLink, ReactiveFormsModule, DatePickerModule],
+  imports: [CommonModule, InputText, FloatLabel, Panel, NgOptimizedImage, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -28,23 +29,29 @@ export class LoginComponent {
   })
 
   public registerForm = new FormGroup({
-    username: new FormControl("", Validators.required),
-    password: new FormControl("", Validators.required),
-    confermaPassword: new FormControl("", Validators.required),
-    nome: new FormControl("", Validators.required),
-    cognome: new FormControl("", Validators.required),
-    cf: new FormControl("", [
-      Validators.required,
-      Validators.pattern("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$")
-    ]),
-    dataNascita: new FormControl("", Validators.required),
-    luogoNascita: new FormControl("", Validators.required),
-    telefono: new FormControl("", Validators.required)
-  })
+      username: new FormControl("", Validators.required),
+      password: new FormControl("", Validators.required),
+      confermaPassword: new FormControl("", Validators.required),
+      nome: new FormControl("", [Validators.required, Validators.minLength(2)]),
+      cognome: new FormControl("", [Validators.required, Validators.minLength(2)]),
+      cf: new FormControl("", [
+        Validators.required,
+        Validators.pattern("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$")
+      ]),
+      dataNascita: new FormControl("", Validators.required),
+      luogoNascita: new FormControl("", Validators.required),
+      telefono: new FormControl("", Validators.required),
+      email: new FormControl("", [Validators.required, Validators.email])
+    },
+    //{validators: pswMatchConfirmPsw()}
+
+  );
+
 
   constructor(private authService: AuthService,
               private toastService: ToastMessageService) {
   }
+
 
   onSubmitLogin() {
 
@@ -104,8 +111,8 @@ export class LoginComponent {
       luogoNascita: this.getRegisterField("luogoNascita"),
       username: this.getRegisterField("username"),
       telefono: this.getRegisterField("telefono"),
-      password: this.getRegisterField("password")
-
+      password: this.getRegisterField("password"),
+      email: this.getRegisterField("email")
     }
 
     this.authService.register(registerData).subscribe({
@@ -117,6 +124,10 @@ export class LoginComponent {
       }
     })
 
+  }
+
+  public redirectToGoogleAuth() {
+    this.authService.loginWithGoogle()
   }
 
 }

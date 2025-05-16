@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-5">
+      <div class="mt-4 myshadow">
+        <p-panel>
+
+          <div class="d-flex justify-content-center mb-3">
+            <img ngSrc="assets/logo-rounded.png" alt="logo" height="60" width="60">
+          </div>
+          <h5 class="text-center">Ops, si è verificato un errore:</h5>
+          <div class="d-flex text-danger">
+            <h3 class="text-center my-5">{{ this.errMsg?.toString() }}</h3>
+          </div>
+
+          <p class="mt-4">Torna alla pagina di registrazione <a routerLink="/register">qui</a></p>
+          <p class="mt-4">Torna alla pagina di login <a routerLink="/login">qui</a></p>
+
+
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

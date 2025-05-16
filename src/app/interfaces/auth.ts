@@ -11,5 +11,6 @@ export interface IRegister {
   "cf": string,
   "dataNascita": string,
   "luogoNascita": string,
-  "telefono": string
+  "telefono": string,
+  "email": string
 }

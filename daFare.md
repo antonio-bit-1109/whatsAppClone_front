@@ -1,1 +1,4 @@
--[] controllare i dati quando viene fatta la registrazione, lato front e lato server 
+-[] controllare i dati quando viene fatta la registrazione, lato front e lato server
+-[] sistema validazioni front end
+-[] crea componente di errore
+-[] componentizza il form di login/registrazione per essere riutilizzabile

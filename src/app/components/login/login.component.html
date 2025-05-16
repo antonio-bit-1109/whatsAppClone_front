@@ -46,6 +46,12 @@
             <h6 class="mt-5"> Vuoi dirmi qualcosa? mandami una <a class="primary_color"
                                                                   routerLink="/sendEmail">Email</a></h6>
 
+
+            <button (click)="this.redirectToGoogleAuth()" pButton>Effettua login con google <img
+              style="width: 30px;height: 30px" alt="logo-google"
+              src="assets/icons8-google-48.svg"/>
+            </button>
+
           </p-panel>
         </div>
       </ng-container>
@@ -109,6 +115,11 @@
                 <label for="on_label">Telefono</label>
               </p-floatlabel>
 
+              <p-floatlabel class="my-3" variant="on">
+                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="email"/>
+                <label for="on_label">Email</label>
+              </p-floatlabel>
+
 
               <p-button type="submit" [disabled]="!registerForm.valid" class=" btn button p-0 my-2"
                         label="Effettua Registrazione"/>
@@ -161,14 +172,21 @@
                 <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf' , 'pattern')">
                   Inserisci un codice fiscale valido
                 </li>
-
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('email' , 'required')">
+                  Formato email non valido
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('nome' , 'minlength')">
+                  Il nome deve essere lungo almeno due caratteri
+                </li>
+                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cognome' , 'minlength')">
+                  Il cognome deve essere lungo almeno due caratteri
+                </li>
               </ul>
             </div>
           </p-panel>
         </div>
       </div>
     </ng-container>
-
 
   </div>
 </div>

@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
+  // login standard sull app nel quale viene fornito token Jwt standard
   public login(data: ILogin) {
     const headers = {
       'Content-Type': 'application/json',
@@ -25,4 +26,10 @@ export class AuthService {
     }
     return this.http.post(`${this.url}/register`, data, {headers})
   }
+
+  // Login con Google
+  loginWithGoogle() {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  }
+
 }
