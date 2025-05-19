@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {ILogin, IRegister, ITokenStructure} from '../interfaces/auth';
 import {jwtDecode} from "jwt-decode";
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {ISuccessResponse} from '../interfaces/SuccessResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +24,11 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, data, {headers})
   }
 
-  public register(data: IRegister) {
+  public register(data: IRegister):Observable<ISuccessResponse> {
     const headers = {
       'Content-Type': 'application/json',
     }
-    return this.http.post(`${this.url}/register`, data, {headers})
+    return this.http.post<ISuccessResponse>(`${this.url}/register`, data, {headers})
   }
 
   public saveToken(token: string) {

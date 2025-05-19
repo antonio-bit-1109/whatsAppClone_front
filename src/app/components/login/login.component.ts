@@ -8,20 +8,24 @@ import {RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {ILogin, IRegister} from '../../interfaces/auth';
-// @ts-ignore
-import {HttpErrorResponse} from '@angular/common/module.d-CnjH8Dlt';
 import {ToastMessageService} from '../../services/toast-message.service';
 import {DatePickerModule} from 'primeng/datepicker';
 import {LogoAppComponent} from '../logo-app/logo-app.component';
+import {handleHttpErrorResp, IErrorResponse} from '../../interfaces/errorResponse';
+import {ISuccessResponse} from '../../interfaces/SuccessResponse';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Select} from 'primeng/select';
+import { citiesArrayConst} from '../../costanti/const';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, InputText, FloatLabel, Panel, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective, LogoAppComponent],
+  imports: [CommonModule, InputText, FloatLabel, Panel, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective, LogoAppComponent, Select],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
+  public cities: any[] | undefined;
   @Input() public isLogin = true;
   public loginForm = new FormGroup({
     username: new FormControl("", Validators.required),
@@ -36,7 +40,7 @@ export class LoginComponent {
       cognome: new FormControl("", [Validators.required, Validators.minLength(2)]),
       cf: new FormControl("", [
         Validators.required,
-        Validators.pattern("^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$")
+        Validators.pattern("^[A-Za-z]{6}[0-9]{2}[A-Za-z][0-9]{2}[A-Za-z][0-9]{3}[A-Za-z]$")
       ]),
       dataNascita: new FormControl("", Validators.required),
       luogoNascita: new FormControl("", Validators.required),
@@ -44,12 +48,14 @@ export class LoginComponent {
       email: new FormControl("", [Validators.required, Validators.email])
     },
     //{validators: pswMatchConfirmPsw()}
-
   );
 
 
   constructor(private authService: AuthService,
               private toastService: ToastMessageService) {
+
+    // sorteggio nomi citta in ordine alfabetico
+    this.cities = citiesArrayConst.sort((a,b) => a.item.localeCompare(b.item) )
   }
 
 
@@ -76,14 +82,13 @@ export class LoginComponent {
         this.toastService.show("success", "Login", "Login effettuato con successo.")
       },
       error: (err: HttpErrorResponse) => {
-        console.error(err.error)
-        this.toastService.show("error", "Login", err.error['message'])
+        const errObj = err.error as IErrorResponse
+        this.toastService.show("error", "Login", errObj.errMsg);
       }
     })
   }
 
   public checkIfErrorAndTouched(field: string, errType: string) {
-
 
     if (this.registerForm.get(field)?.hasError(errType) &&
       this.registerForm.get(field)?.touched) {
@@ -94,7 +99,23 @@ export class LoginComponent {
   }
 
   public getRegisterField(field: string): string {
-    return this.registerForm.get(field)?.value;
+
+    const value = this.registerForm.get(field)?.value;
+
+    if (typeof value === null || typeof  value === undefined){
+      return ""
+    }
+
+    if (typeof value === 'string'){
+      return value;
+    }
+
+    if (typeof value === 'object' && 'item' in value){
+      return value.item
+    }
+
+    return String(value);
+
   }
 
 
@@ -102,11 +123,13 @@ export class LoginComponent {
     if (!this.registerForm.valid) {
       return
     }
+    console.log(this.registerForm.value)
 
     const registerData: IRegister = {
       cognome: this.getRegisterField("cognome"),
       nome: this.getRegisterField("nome"),
-      dataNascita: this.getRegisterField("dataNascita"),
+      dataNascita: this.registerForm.controls.dataNascita.value ?
+        this.registerForm.controls.dataNascita.value : "",
       cf: this.getRegisterField("cf").toUpperCase(),
       luogoNascita: this.getRegisterField("luogoNascita"),
       username: this.getRegisterField("username"),
@@ -116,11 +139,11 @@ export class LoginComponent {
     }
 
     this.authService.register(registerData).subscribe({
-      next: (resp) => {
-        console.log(resp)
+      next: (resp:ISuccessResponse) => {
+        this.toastService.show("success" , "registrazione utente" ,resp.message)
       },
       error: (err: HttpErrorResponse) => {
-        console.error(err.error)
+       this.toastService.show("error" , "registrazione utente" ,handleHttpErrorResp(err))
       }
     })
 

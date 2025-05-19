@@ -100,11 +100,13 @@
                 <label for="on_label">Data di nascita</label>
               </p-floatlabel>
 
+              <p-select formControlName="luogoNascita"
+                        [options]="cities"
+                        optionLabel="item"
+                        placeholder="Seleziona una città"
+                        class=" md:w-56 w-100" />
 
-              <p-floatlabel class="my-3" variant="on">
-                <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="luogoNascita"/>
-                <label for="on_label">Luogo di nascita</label>
-              </p-floatlabel>
+
 
               <p-floatlabel class="my-3" variant="on">
                 <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="telefono"/>
