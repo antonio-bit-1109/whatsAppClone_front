@@ -6,12 +6,12 @@
 
           <app-logo-app classes="d-flex justify-content-center mb-3"></app-logo-app>
 
-          <h5 class="text-center">Inviami una</h5>
-          <h1 class="text-center mb-3">Email</h1>
+          <h5 class="text-center">Send me </h5>
+          <h1 class="text-center mb-3">a Message</h1>
           <form [formGroup]="sendEmailForm" (ngSubmit)="sendEmail()">
             <p-floatlabel class="my-3" variant="on">
               <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="email"/>
-              <label for="on_label">Email</label>
+              <label for="on_label">your email</label>
             </p-floatlabel>
 
             <p-floatlabel variant="on">
