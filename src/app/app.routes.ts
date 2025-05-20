@@ -6,6 +6,7 @@ import {ErrorComponent} from './components/error/error.component';
 import {SuccessComponent} from './components/success/success.component';
 import {HomeComponent} from './components/home/home.component';
 import {MainHomeComponent} from './components/main-home/main-home.component';
+import {ProfileComponent} from './components/profile/profile.component';
 
 export const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     path: "home", component: HomeComponent, children: [
       {path: '', component: MainHomeComponent},
+      {path: 'profile', component: ProfileComponent},
     ]
   },
   {path: '', redirectTo: '/login', pathMatch: 'full'}, // Reindirizza alla pagina di login di default

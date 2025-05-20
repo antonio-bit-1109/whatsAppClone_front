@@ -9,9 +9,7 @@ export class CustomValidators {
 
     const psw = control.get('password')?.value;
     const confirmPsw = control.get('confermaPassword')?.value;
-
-    console.log(psw)
-    console.log(confirmPsw)
+    
     if (psw && confirmPsw && psw === confirmPsw) {
       return null;
     } else {

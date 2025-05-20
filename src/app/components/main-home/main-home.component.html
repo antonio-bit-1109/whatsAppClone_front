@@ -1,24 +1,14 @@
-<p-drawer [(visible)]="visible" [style]="{width: '300px'}" [closeOnEscape]="true"
-          position="left">
-  <app-logo-app classes="d-flex justify-content-center"></app-logo-app>
-  <p-menu styleClass="mt-4" [model]="items"/>
+<div class="align-items-center">
+  <div class="vh-100 d-flex align-items-center">
 
-</p-drawer>
-<div class="main-side-bar myshadow d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center custom_border_primary rounded-5 p-4">
+      <app-logo-app widthLogo="150" heightLogo="150"></app-logo-app>
+      <h2 class="display-2 text-center text-capitalize fw-bold">Welcome on
+        <span class="primary_color">PuzzApp</span>
+      </h2>
+    </div>
 
-  <p-button (click)="this.visible= true" size="small" [rounded]="true" severity="success"
-            [outlined]="true"
-            class="mt-2">☰
-  </p-button>
-  <p-button (click)="this.authService.logout()" size="small" [rounded]="true"
-            [outlined]="true"
-            class="mt-2">
-    <i class="pi pi-sign-out" style="font-size: 1rem"></i>
-  </p-button>
-</div>
-
-<div class="container-fluid">
-
+  </div>
 </div>
 
 

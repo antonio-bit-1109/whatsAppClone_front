@@ -11,5 +11,7 @@ import {NgOptimizedImage} from "@angular/common";
 })
 export class LogoAppComponent {
 
-  @Input() classes: string = ""
+  @Input() classes: string = "";
+  @Input() widthLogo: string = '60';
+  @Input() heightLogo: string = '60';
 }

@@ -17,6 +17,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Select} from 'primeng/select';
 import {citiesArrayConst} from '../../costanti/const';
 import {CustomValidators} from '../../customValidators/pswMatchConfirmPsw';
+import {AudioPlayerService} from '../../services/audio-player.service';
 
 @Component({
   selector: 'app-login',
@@ -54,7 +55,8 @@ export class LoginComponent {
 
   constructor(private authService: AuthService,
               private toastService: ToastMessageService,
-              private router: Router) {
+              private router: Router,
+              private audioPlayerService: AudioPlayerService) {
 
     // sorteggio nomi citta in ordine alfabetico
     this.cities = citiesArrayConst.sort((a, b) => a.item.localeCompare(b.item))
@@ -83,6 +85,7 @@ export class LoginComponent {
       next: (resp: ISuccessResponse) => {
         this.toastService.show("success", "Login", "Login effettuato con successo.")
         this.authService.saveToken(resp.message)
+        this.audioPlayerService.startNewAudio("assets/fart1.mp3")
         void this.router.navigateByUrl("/home")
       },
       error: (err: HttpErrorResponse) => {

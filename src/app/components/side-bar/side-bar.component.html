@@ -1,0 +1,24 @@
+<p-drawer [(visible)]="visible" [style]="{width: '300px'}" [closeOnEscape]="true"
+          position="left">
+  <app-logo-app classes="d-flex justify-content-center"></app-logo-app>
+  <p-menu styleClass="mt-4" [model]="items"/>
+
+</p-drawer>
+<div class="main-side-bar d-flex flex-column align-items-center">
+
+  <p-button (click)="this.visible= true" size="small" [rounded]="true" severity="success"
+            [outlined]="true"
+            class="mt-2">☰
+  </p-button>
+  <p-button (click)="this.logout()" size="small"
+            [rounded]="true"
+            [outlined]="true"
+            class="mt-2">
+    <i class="pi pi-sign-out" style="font-size: 1rem"></i>
+  </p-button>
+</div>
+
+<div class="container-fluid">
+
+</div>
+

@@ -1,0 +1,59 @@
+@import "../../../color";
+
+.main-side-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  transition: width 0.3s ease;
+  background-color: $color-black;
+}
+
+// Per schermi molto piccoli (smartphone)
+@media screen and (max-width: 576px) {
+  .main-side-bar {
+    width: 15%; // Più largo su smartphone per migliorare usabilità
+  }
+
+  //.container-fluid {
+  //  margin-left: 15%;
+  //  width: 85%;
+  //}
+}
+
+// Per tablet e schermi medi
+@media screen and (min-width: 577px) and (max-width: 992px) {
+  .main-side-bar {
+    width: 8%;
+  }
+
+  //.container-fluid {
+  //  margin-left: 10%;
+  //  width: 90%;
+  //}
+}
+
+// Per desktop
+@media screen and (min-width: 993px) and (max-width: 1440px) {
+  .main-side-bar {
+    width: 7%;
+  }
+
+  //.container-fluid {
+  //  margin-left: 8%;
+  //  width: 92%;
+  //}
+}
+
+// Per schermi molto grandi
+@media screen and (min-width: 1441px) {
+  .main-side-bar {
+    width: 7%; // Relativamente più sottile su schermi grandi
+  }
+
+  //.container-fluid {
+  //  margin-left: 6%;
+  //  width: 94%;
+  //}
+}

@@ -4,12 +4,14 @@
       <div class="mt-4 myshadow">
         <p-panel>
           <app-logo-app classes="d-flex justify-content-center mb-3"></app-logo-app>
-          <h5 class="text-center">Login effettuato con successo! <br> stai per essere reindirizzato alla home:</h5>
+          <h5 class="text-center">Login effettuato con successo!</h5>
           <div class="d-flex justify-content-center">
             <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s"
                                 [style]="{ width: '100px', height: '100px' }"/>
           </div>
-
+          <div class="d-flex mt-4">
+            <button (click)="this.redirectHome()" pButton class="d-flex w-100">Vai alla home</button>
+          </div>
         </p-panel>
       </div>
     </div>

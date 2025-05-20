@@ -6,12 +6,20 @@ pointer {
 }
 
 .primary_color {
-  color: $color-primary
+  color: $color-primary !important;
 }
 
 body {
   background-color: $color-background !important;
   font-family: "Roboto", sans-serif !important;
+}
+
+.border-primary_custom {
+  border-color: $color-primary !important;
+}
+
+.custom_border_primary {
+  border: 3px solid $color-primary;
 }
 
 button {
@@ -24,4 +32,7 @@ button {
   box-shadow: #2c2b2b 3px 6px 8px !important;
 }
 
+.transparent {
+  background-color: transparent !important;
+}
 
