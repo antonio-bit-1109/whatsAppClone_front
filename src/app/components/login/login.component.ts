@@ -101,7 +101,8 @@ export class LoginComponent {
   }
 
   public getCustomError(errorFieldName: string) {
-    if (this.registerForm.hasError('passwordIncorrect') && this.registerForm.touched) {
+    if (this.registerForm.hasError('passwordIncorrect') &&
+      this.registerForm.touched) {
       return true
     }
     return false;
