@@ -4,7 +4,7 @@ import {InputText} from 'primeng/inputtext';
 import {FloatLabel} from 'primeng/floatlabel';
 import {Panel} from 'primeng/panel';
 import {Button, ButtonDirective} from 'primeng/button';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {ILogin, IRegister} from '../../interfaces/auth';
@@ -15,7 +15,8 @@ import {handleHttpErrorResp, IErrorResponse} from '../../interfaces/errorRespons
 import {ISuccessResponse} from '../../interfaces/SuccessResponse';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Select} from 'primeng/select';
-import { citiesArrayConst} from '../../costanti/const';
+import {citiesArrayConst} from '../../costanti/const';
+import {CustomValidators} from '../../customValidators/pswMatchConfirmPsw';
 
 @Component({
   selector: 'app-login',
@@ -47,15 +48,16 @@ export class LoginComponent {
       telefono: new FormControl("", Validators.required),
       email: new FormControl("", [Validators.required, Validators.email])
     },
-    //{validators: pswMatchConfirmPsw()}
+    {validators: CustomValidators.validatePswAndConfirmPsw}
   );
 
 
   constructor(private authService: AuthService,
-              private toastService: ToastMessageService) {
+              private toastService: ToastMessageService,
+              private router: Router) {
 
     // sorteggio nomi citta in ordine alfabetico
-    this.cities = citiesArrayConst.sort((a,b) => a.item.localeCompare(b.item) )
+    this.cities = citiesArrayConst.sort((a, b) => a.item.localeCompare(b.item))
   }
 
 
@@ -98,19 +100,26 @@ export class LoginComponent {
     return false;
   }
 
+  public getCustomError(errorFieldName: string) {
+    if (this.registerForm.hasError('passwordIncorrect') && this.registerForm.touched) {
+      return true
+    }
+    return false;
+  }
+
   public getRegisterField(field: string): string {
 
     const value = this.registerForm.get(field)?.value;
 
-    if (typeof value === null || typeof  value === undefined){
+    if (typeof value === null || typeof value === undefined) {
       return ""
     }
 
-    if (typeof value === 'string'){
+    if (typeof value === 'string') {
       return value;
     }
 
-    if (typeof value === 'object' && 'item' in value){
+    if (typeof value === 'object' && 'item' in value) {
       return value.item
     }
 
@@ -139,11 +148,12 @@ export class LoginComponent {
     }
 
     this.authService.register(registerData).subscribe({
-      next: (resp:ISuccessResponse) => {
-        this.toastService.show("success" , "registrazione utente" ,resp.message)
+      next: (resp: ISuccessResponse) => {
+        this.toastService.show("success", "registrazione utente", resp.message)
+        void this.router.navigateByUrl("/login");
       },
       error: (err: HttpErrorResponse) => {
-       this.toastService.show("error" , "registrazione utente" ,handleHttpErrorResp(err))
+        this.toastService.show("error", "registrazione utente", handleHttpErrorResp(err))
       }
     })
 

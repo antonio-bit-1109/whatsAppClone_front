@@ -1,21 +1,19 @@
-import {FormGroup, ValidatorFn} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 
-export function pswMatchConfirmPsw(form: FormGroup) {
-  const psw = form.get("password")?.value;
-  const confirmPsw = form.get("confermaPassword")?.value;
+// create your class that extends the angular validator class
+export class CustomValidators {
+  public static validatePswAndConfirmPsw(control: AbstractControl): ValidationErrors | null {
 
-  if (psw && confirmPsw) {
-    checkTwoValues(psw, confirmPsw)
-  }
-}
+    const psw = control.get('password')?.value;
+    const confirmPsw = control.get('confermaPassword')?.value;
 
-function checkTwoValues(psw: any, confirmPsw: any) {
+    console.log(psw)
+    console.log(confirmPsw)
+    if (psw && confirmPsw && psw === confirmPsw) {
+      return null;
+    } else {
+      return {passwordIncorrect: true}
+    }
 
-  if (psw !== confirmPsw) {
-    confirmPsw.setErrors({passwordMismatch: true})
-    return {passwordMismatch: true};
-
-  } else {
-    return null;
   }
 }
