@@ -2,3 +2,5 @@
 -[] sistema validazioni front end
 -[] crea componente di errore
 -[] componentizza il form di login/registrazione per essere riutilizzabile
+-[] trova modo di prendere nome utente reale dal server (endpoint o dal token)??
+-[] implementa middleware per invio token ad ogni request del front ( mettilo su notion)

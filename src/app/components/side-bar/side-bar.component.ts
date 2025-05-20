@@ -52,4 +52,6 @@ export class SideBarComponent implements OnInit {
     this.authService.logout()
     this.audioPlayerService.startNewAudio("assets/fart2.mp3")
   }
+
+
 }
