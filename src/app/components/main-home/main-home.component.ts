@@ -4,6 +4,8 @@ import {Button} from 'primeng/button';
 import {LogoAppComponent} from '../logo-app/logo-app.component';
 import {MenuItem} from 'primeng/api';
 import {Menu} from 'primeng/menu';
+import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-main-home',
@@ -20,10 +22,13 @@ export class MainHomeComponent implements OnInit {
   visible: boolean = false;
   items: MenuItem[] | undefined;
 
+  constructor(protected authService: AuthService) {
+  }
+
   ngOnInit() {
     this.items = [
-      {label: 'New', icon: 'pi pi-plus'},
-      {label: 'Logout', icon: 'pi pi-search'}
+      {label: 'prova1', icon: 'pi pi-plus'},
+      {label: 'prova2', icon: 'pi pi-search'}
     ];
   }
 }

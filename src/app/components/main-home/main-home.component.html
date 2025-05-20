@@ -4,11 +4,16 @@
   <p-menu styleClass="mt-4" [model]="items"/>
 
 </p-drawer>
-<div class="main-side-bar myshadow d-flex justify-content-center">
+<div class="main-side-bar myshadow d-flex flex-column align-items-center">
 
-  <p-button (click)="this.visible= true" size="small" icon="pi-search" [rounded]="true" severity="success"
+  <p-button (click)="this.visible= true" size="small" [rounded]="true" severity="success"
             [outlined]="true"
             class="mt-2">☰
+  </p-button>
+  <p-button (click)="this.authService.logout()" size="small" [rounded]="true"
+            [outlined]="true"
+            class="mt-2">
+    <i class="pi pi-sign-out" style="font-size: 1rem"></i>
   </p-button>
 </div>
 

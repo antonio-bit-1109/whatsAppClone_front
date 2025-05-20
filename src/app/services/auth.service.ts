@@ -5,6 +5,7 @@ import {jwtDecode} from "jwt-decode";
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ISuccessResponse} from '../interfaces/SuccessResponse';
+import {ToastMessageService} from './toast-message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +14,20 @@ export class AuthService {
 
   private url = "http://localhost:8080/auth"
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private toastMessage: ToastMessageService) {
   }
 
   // login standard sull app nel quale viene fornito token Jwt standard
-  public login(data: ILogin) {
+  public login(data: ILogin): Observable<ISuccessResponse> {
     const headers = {
       'Content-Type': 'application/json',
     }
-    return this.http.post(`${this.url}/login`, data, {headers})
+    return this.http.post<ISuccessResponse>(`${this.url}/login`, data, {headers})
   }
 
-  public register(data: IRegister):Observable<ISuccessResponse> {
+  public register(data: IRegister): Observable<ISuccessResponse> {
     const headers = {
       'Content-Type': 'application/json',
     }
@@ -79,7 +82,8 @@ export class AuthService {
   public logout() {
     if (this.getToken() !== null) {
       localStorage.removeItem("token")
-      this.router.navigateByUrl("/login")
+      void this.router.navigateByUrl("/login")
+      this.toastMessage.show("success", "Logout", "hai effettuato il logout")
     }
   }
 

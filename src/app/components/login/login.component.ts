@@ -80,8 +80,10 @@ export class LoginComponent {
     }
 
     this.authService.login(loginData).subscribe({
-      next: (resp) => {
+      next: (resp: ISuccessResponse) => {
         this.toastService.show("success", "Login", "Login effettuato con successo.")
+        this.authService.saveToken(resp.message)
+        void this.router.navigateByUrl("/home")
       },
       error: (err: HttpErrorResponse) => {
         const errObj = err.error as IErrorResponse
@@ -101,7 +103,7 @@ export class LoginComponent {
   }
 
   public getCustomError(errorFieldName: string) {
-    if (this.registerForm.hasError('passwordIncorrect') &&
+    if (this.registerForm.hasError(errorFieldName) &&
       this.registerForm.touched) {
       return true
     }
