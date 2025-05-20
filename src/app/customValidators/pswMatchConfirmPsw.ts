@@ -1,6 +1,9 @@
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 
-// create your class that extends the angular validator class
+/**
+ * A utility class for custom form validators,
+ * providing methods to perform specific validation logic.
+ */
 export class CustomValidators {
   public static validatePswAndConfirmPsw(control: AbstractControl): ValidationErrors | null {
 
