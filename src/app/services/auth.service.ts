@@ -47,7 +47,7 @@ export class AuthService {
       const decoded: ITokenStructure = jwtDecode(this.getToken() as string);
       return decoded.image;
     }
-    return null;
+    return "";
   }
 
   public getRole() {

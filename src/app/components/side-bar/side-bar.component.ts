@@ -7,6 +7,7 @@ import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {AudioPlayerService} from '../../services/audio-player.service';
+import {ImageComponentComponent} from '../image-component/image-component.component';
 
 @Component({
   selector: 'app-side-bar',
@@ -14,7 +15,8 @@ import {AudioPlayerService} from '../../services/audio-player.service';
     Button,
     Drawer,
     LogoAppComponent,
-    Menu
+    Menu,
+    ImageComponentComponent
   ],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss'

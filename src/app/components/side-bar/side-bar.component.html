@@ -6,6 +6,10 @@
 </p-drawer>
 <div class="main-side-bar d-flex flex-column align-items-center">
 
+  <div class="mt-1">
+    <app-image-component classes="rounded rounded-circle" height="40" width="40"
+                         [src]="this.authService.getProfileImage()"></app-image-component>
+  </div>
   <p-button (click)="this.visible= true" size="small" [rounded]="true" severity="success"
             [outlined]="true"
             class="mt-2">☰
@@ -16,6 +20,7 @@
             class="mt-2">
     <i class="pi pi-sign-out" style="font-size: 1rem"></i>
   </p-button>
+
 </div>
 
 <div class="container-fluid">
