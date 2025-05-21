@@ -7,6 +7,9 @@ import {ActivatedRoute, NavigationEnd, Router, RouterLink, RoutesRecognized} fro
 import {LogoAppComponent} from '../logo-app/logo-app.component';
 import {InputText} from 'primeng/inputtext';
 import {filter, pairwise, take} from 'rxjs/operators';
+import {UrlHandlerService} from '../../services/url-handler.service';
+import {AuthService} from '../../services/auth.service';
+import {NgIf} from '@angular/common';
 
 
 @Component({
@@ -19,15 +22,14 @@ import {filter, pairwise, take} from 'rxjs/operators';
     RouterLink,
     LogoAppComponent,
     InputText,
+    NgIf,
   ],
   templateUrl: './send-email.component.html',
   styleUrl: './send-email.component.scss'
 })
-export class SendEmailComponent implements OnInit {
+export class SendEmailComponent {
 
   public isAutenticated: boolean = false;
-  private previousUrl: string = '';
-  private currentUrl: string = '';
 
 
   public sendEmailForm = new FormGroup({
@@ -35,28 +37,16 @@ export class SendEmailComponent implements OnInit {
     text: new FormControl("", Validators.required)
   })
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router) {
+  constructor(protected urlHandler: UrlHandlerService,
+              private authService: AuthService) {
 
+    if (this.authService.getToken() !== null &&
+      this.urlHandler.getPreviousUrl() !== null) {
+      this.isAutenticated = true;
+    }
 
   }
 
-  ngOnInit() {
-
-  }
-
-
-  public takeNoteOfPreviuosAndCurrentRoute() {
-
-    // this.router.events.pipe(
-    //   take(1)
-    // )
-    //   .subscribe({
-    //     next:(event) => {
-    //       this.previousUrl = event
-    //     }
-    //   })
-  }
 
   sendEmail() {
 

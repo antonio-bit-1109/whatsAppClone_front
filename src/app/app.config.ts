@@ -6,6 +6,7 @@ import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import {provideHttpClient} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
+import {UrlHandlerService} from './services/url-handler.service';
 
 
 export const appConfig: ApplicationConfig = {
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideRouter(routes),
     provideAnimationsAsync(),
+    UrlHandlerService,
     MessageService,
     providePrimeNG({
       ripple: true,

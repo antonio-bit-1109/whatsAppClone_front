@@ -27,16 +27,22 @@
 
           <div class="d-flex justify-content-center align-items-center w-100 mt-5 gap-5">
 
-            <div>
-              <h6> Torna alla pagina di<a class="primary_color mx-1"
-                                          routerLink="/login">login</a></h6>
-            </div>
+            <ng-container *ngIf="!this.isAutenticated else isAuth">
+              <div>
+                <h6> Torna alla pagina di<a class="primary_color mx-1"
+                                            routerLink="/login">login</a></h6>
+              </div>
 
+              <div>
+                <h6> Torna alla pagina di<a class="primary_color mx-1"
+                                            routerLink="/register">Registrazione</a></h6>
+              </div>
+            </ng-container>
 
-            <div>
-              <h6> Torna alla pagina di<a class="primary_color mx-1"
-                                          routerLink="/register">Registrazione</a></h6>
-            </div>
+            <ng-template #isAuth>
+              <h6> Torna<a class="primary_color mx-1"
+                           [routerLink]="this.urlHandler.getPreviousUrl()">Indietro</a></h6>
+            </ng-template>
 
 
           </div>
