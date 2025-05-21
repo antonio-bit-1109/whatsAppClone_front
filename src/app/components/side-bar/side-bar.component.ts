@@ -8,6 +8,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {AudioPlayerService} from '../../services/audio-player.service';
 import {ImageComponentComponent} from '../image-component/image-component.component';
+import {UrlHandlerService} from '../../services/url-handler.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -24,11 +25,11 @@ import {ImageComponentComponent} from '../image-component/image-component.compon
 export class SideBarComponent implements OnInit {
   visible: boolean = false;
   items: MenuItem[] | undefined;
-  public fullName: string | undefined;
 
   constructor(protected authService: AuthService,
               private router: Router,
-              private audioPlayerService: AudioPlayerService) {
+              private audioPlayerService: AudioPlayerService,
+              private urlHandler: UrlHandlerService) {
   }
 
   ngOnInit() {
@@ -63,4 +64,8 @@ export class SideBarComponent implements OnInit {
   }
 
 
+  public navigatePrevious() {
+    const previousRoute = this.urlHandler.getPreviousUrl();
+    previousRoute && void this.router.navigateByUrl(previousRoute)
+  }
 }
