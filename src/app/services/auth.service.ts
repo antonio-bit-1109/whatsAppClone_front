@@ -50,6 +50,14 @@ export class AuthService {
     return "";
   }
 
+  public getFullName() {
+    if (this.getToken() !== null) {
+      const decoded: ITokenStructure = jwtDecode(this.getToken() as string);
+      return decoded.full_name;
+    }
+    return "";
+  }
+
   public getRole() {
     if (this.getToken() !== null) {
       const decoded: ITokenStructure = jwtDecode(this.getToken() as string);

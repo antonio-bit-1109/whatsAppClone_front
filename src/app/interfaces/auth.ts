@@ -21,6 +21,7 @@ export interface ITokenStructure {
   "id": number,
   "sub": string,
   "iat": number,
-  "exp": number
-  
+  "exp": number,
+  full_name: string
+
 }

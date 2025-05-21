@@ -24,6 +24,7 @@ import {ImageComponentComponent} from '../image-component/image-component.compon
 export class SideBarComponent implements OnInit {
   visible: boolean = false;
   items: MenuItem[] | undefined;
+  public fullName: string | undefined;
 
   constructor(protected authService: AuthService,
               private router: Router,
@@ -32,16 +33,24 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      {label: 'chat', icon: 'pi pi-comments'},
+      {label: 'Chat', icon: 'pi pi-comments'},
       {
-        label: 'profilo', icon: 'pi pi-user',
+        label: 'Profilo', icon: 'pi pi-user',
         command: () => this.navigateToComponent("/home/profile"),
       },
       {
-        label: 'home', icon: 'pi pi-home',
+        label: 'Home', icon: 'pi pi-home',
         command: () => this.navigateToComponent("/home")
       },
+      {
+        label: 'Mandami un messaggio', icon: 'pi pi-inbox',
+        command: () => this.navigateToComponent("/sendEmail")
+      },
     ];
+  }
+
+  public getUserFullName() {
+    return "Ciao, " + this.authService.getFullName();
   }
 
   public navigateToComponent(routerPath: string) {

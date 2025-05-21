@@ -1,7 +1,8 @@
-import {Component, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Component, ElementRef, ViewChild, AfterViewInit, OnInit} from '@angular/core';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {Toast} from 'primeng/toast';
 import {AudioPlayerService} from './services/audio-player.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,17 @@ import {AudioPlayerService} from './services/audio-player.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements AfterViewInit {
-  title = 'WhatsAppClone_front';
+export class AppComponent implements AfterViewInit, OnInit {
+
   @ViewChild('audioPlayer') audioPlayerRef!: ElementRef<HTMLAudioElement>;
 
-  constructor(private audioPlayerService: AudioPlayerService) {
+
+  constructor(private audioPlayerService: AudioPlayerService,
+              private router: Router) {
+  }
+
+  ngOnInit() {
+
   }
 
   ngAfterViewInit() {
