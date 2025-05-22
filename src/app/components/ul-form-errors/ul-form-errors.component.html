@@ -1,0 +1,8 @@
+<ul>
+  <ng-container *ngFor="let errObj of this.errorsType">
+    <li *ngIf="this.checkIfErrorAndTouched(errObj.nomeCampoForm , errObj.errType)"
+        class="text-danger">{{ errObj.msgErr }}
+    </li>
+  </ng-container>
+
+</ul>

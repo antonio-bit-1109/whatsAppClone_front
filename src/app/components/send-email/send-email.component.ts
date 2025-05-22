@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Button} from "primeng/button";
 import {FloatLabel} from "primeng/floatlabel";
 import {Panel} from "primeng/panel";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ActivatedRoute, NavigationEnd, Router, RouterLink, RoutesRecognized} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {LogoAppComponent} from '../logo-app/logo-app.component';
 import {InputText} from 'primeng/inputtext';
-import {filter, pairwise, take} from 'rxjs/operators';
 import {UrlHandlerService} from '../../services/url-handler.service';
 import {AuthService} from '../../services/auth.service';
 import {NgIf} from '@angular/common';
@@ -33,7 +32,10 @@ export class SendEmailComponent {
 
 
   public sendEmailForm = new FormGroup({
-    email: new FormControl("", Validators.required),
+    email: new FormControl("", [
+      Validators.required,
+      Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(it|com)$\n")
+    ]),
     text: new FormControl("", Validators.required)
   })
 

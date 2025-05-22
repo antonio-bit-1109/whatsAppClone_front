@@ -18,10 +18,11 @@ import {Select} from 'primeng/select';
 import {citiesArrayConst} from '../../costanti/const';
 import {CustomValidators} from '../../customValidators/pswMatchConfirmPsw';
 import {AudioPlayerService} from '../../services/audio-player.service';
+import {UlFormErrorsComponent} from '../ul-form-errors/ul-form-errors.component';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, InputText, FloatLabel, Panel, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective, LogoAppComponent, Select],
+  imports: [CommonModule, InputText, FloatLabel, Panel, Button, RouterLink, ReactiveFormsModule, DatePickerModule, ButtonDirective, LogoAppComponent, Select, UlFormErrorsComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -95,23 +96,23 @@ export class LoginComponent {
     })
   }
 
-  public checkIfErrorAndTouched(field: string, errType: string) {
-
-    if (this.registerForm.get(field)?.hasError(errType) &&
-      this.registerForm.get(field)?.touched) {
-      return true
-    }
-
-    return false;
-  }
-
-  public getCustomError(errorFieldName: string) {
-    if (this.registerForm.hasError(errorFieldName) &&
-      this.registerForm.touched) {
-      return true
-    }
-    return false;
-  }
+  // public checkIfErrorAndTouched(field: string, errType: string) {
+  //
+  //   if (this.registerForm.get(field)?.hasError(errType) &&
+  //     this.registerForm.get(field)?.touched) {
+  //     return true
+  //   }
+  //
+  //   return false;
+  // }
+  //
+  // public getCustomError(errorFieldName: string) {
+  //   if (this.registerForm.hasError(errorFieldName) &&
+  //     this.registerForm.touched) {
+  //     return true
+  //   }
+  //   return false;
+  // }
 
   public getRegisterField(field: string): string {
 
@@ -169,4 +170,6 @@ export class LoginComponent {
     this.authService.loginWithGoogle()
   }
 
+  protected readonly parseInt = parseInt;
+  protected readonly Number = Number;
 }

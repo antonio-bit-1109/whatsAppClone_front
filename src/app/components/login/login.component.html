@@ -24,18 +24,27 @@
               <p-button type="submit" [disabled]="!this.loginForm.valid" class=" btn button p-0 my-2"
                         label="Effettua login"/>
 
-              <ul>
-                <li class="text-danger"
-                    *ngIf="loginForm.controls.username.hasError('required')
-                    && loginForm.controls.username.touched">
-                  Inserisci username
-                </li>
-                <li class="text-danger"
-                    *ngIf="loginForm.controls.password.hasError('required')
-                      && loginForm.controls.password.touched">
-                  Inserisci password
-                </li>
-              </ul>
+              <app-ul-form-errors [form]="this.loginForm"
+                                  [errorsType]="[
+                                  {errType:'required' ,
+                                  nomeCampoForm:'username',
+                                   msgErr:'Inserisci username'} ,
+                                   {errType:'required' ,
+                                  nomeCampoForm:'password',
+                                   msgErr:'Inserisci password'}
+                                   ]"/>
+              <!--              <ul>-->
+              <!--                <li class="text-danger"-->
+              <!--                    *ngIf="loginForm.controls.username.hasError('required')-->
+              <!--                    && loginForm.controls.username.touched">-->
+              <!--                  Inserisci username-->
+              <!--                </li>-->
+              <!--                <li class="text-danger"-->
+              <!--                    *ngIf="loginForm.controls.password.hasError('required')-->
+              <!--                      && loginForm.controls.password.touched">-->
+              <!--                  Inserisci password-->
+              <!--                </li>-->
+              <!--              </ul>-->
 
 
             </form>
@@ -140,49 +149,66 @@
           <p-panel>
             <div>
               <h4>Attenzione:</h4>
-              <ul>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('username','required')">Username
-                  obbligatorio
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('password','required')">password
-                  obbligatoria
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('confermaPassword','required')">conferma
-                  password
-                  obbligatoria
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('nome','required')">nome obbligatorio</li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cognome','required')">cognome obbligatorio
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf','required')">codice fiscale
-                  obbligatorio
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('dataNascita','required')">data di nascita
-                  obbligatoria
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('luogoNascita','required')">luogo di nascita
-                  obbligatorio
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('telefono','required')">telefono
-                  obbligatorio
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf' , 'pattern')">
-                  Inserisci un codice fiscale valido
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('email' , 'required')">
-                  Formato email non valido
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('nome' , 'minlength')">
-                  Il nome deve essere lungo almeno due caratteri
-                </li>
-                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cognome' , 'minlength')">
-                  Il cognome deve essere lungo almeno due caratteri
-                </li>
-                <li class="text-danger" *ngIf="this.getCustomError('passwordIncorrect')">
-                  Le password non coincidono.
-                </li>
+              <app-ul-form-errors [form]="this.registerForm"
+                                  [errorsType]="[
+                    {errType:'required', nomeCampoForm:'username', msgErr:'Username obbligatorio'},
+                    {errType:'required', nomeCampoForm:'password', msgErr:'Password obbligatoria'},
+                    {errType:'required', nomeCampoForm:'confermaPassword', msgErr:'Password obbligatoria'},
+                    {errType:'required', nomeCampoForm:'nome', msgErr:'nome obbligatorio'},
+                    {errType:'required', nomeCampoForm:'cognome', msgErr:'cognome obbligatorio'},
+                    {errType:'required', nomeCampoForm:'cf', msgErr:'codice fiscale obbligatorio'},
+                    {errType:'required', nomeCampoForm:'dataNascita', msgErr:'data di nascita obbligatoria'},
+                    {errType:'required', nomeCampoForm:'luogoNascita', msgErr:'luogo di nascita obbligatorio'},
+                    {errType:'required', nomeCampoForm:'telefono', msgErr:'telefono obbligatorio'},
+                    {errType:'pattern', nomeCampoForm:'cf', msgErr:'Inserisci un codice fiscale valido'},
+                    {errType:'required', nomeCampoForm:'email', msgErr:'Formato email non valido'},
+                    {errType:'minlength', nomeCampoForm:'nome', msgErr:'Il nome deve essere lungo almeno due caratteri'},
+                    {errType:'minlength', nomeCampoForm:'cognome', msgErr:'Il cognome deve essere lungo almeno due caratteri'},
+                    {errType:'passwordIncorrect' , nomeCampoForm: null , msgErr:'Le password non coincidono.'}
+                    ]"/>
+              <!--              <ul>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('username','required')">Username-->
+              <!--                  obbligatorio-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('password','required')">password-->
+              <!--                  obbligatoria-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('confermaPassword','required')">conferma-->
+              <!--                  password-->
+              <!--                  obbligatoria-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('nome','required')">nome obbligatorio</li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cognome','required')">cognome obbligatorio-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf','required')">codice fiscale-->
+              <!--                  obbligatorio-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('dataNascita','required')">data di nascita-->
+              <!--                  obbligatoria-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('luogoNascita','required')">luogo di nascita-->
+              <!--                  obbligatorio-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('telefono','required')">telefono-->
+              <!--                  obbligatorio-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cf' , 'pattern')">-->
+              <!--                  Inserisci un codice fiscale valido-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('email' , 'required')">-->
+              <!--                  Formato email non valido-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('nome' , 'minlength')">-->
+              <!--                  Il nome deve essere lungo almeno due caratteri-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('cognome' , 'minlength')">-->
+              <!--                  Il cognome deve essere lungo almeno due caratteri-->
+              <!--                </li>-->
+              <!--                <li class="text-danger" *ngIf="this.getCustomError('passwordIncorrect')">-->
+              <!--                  Le password non coincidono.-->
+              <!--                </li>-->
 
-              </ul>
+              <!--              </ul>-->
             </div>
           </p-panel>
         </div>
