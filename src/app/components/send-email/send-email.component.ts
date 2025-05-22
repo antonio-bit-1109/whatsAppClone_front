@@ -9,6 +9,12 @@ import {InputText} from 'primeng/inputtext';
 import {AuthService} from '../../services/auth.service';
 import {NgIf} from '@angular/common';
 import {UlFormErrorsComponent} from '../ul-form-errors/ul-form-errors.component';
+import {SendMeMessagesService} from '../../services/send-me-messages.service';
+import {ISendMeMessage} from '../../interfaces/SendMeMessage';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ISuccessResponse} from '../../interfaces/SuccessResponse';
+import {ToastMessageService} from '../../services/toast-message.service';
+import {IErrorResponse} from '../../interfaces/errorResponse';
 
 
 @Component({
@@ -40,7 +46,9 @@ export class SendEmailComponent {
     text: new FormControl("", Validators.required)
   })
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private sendMeMessageService: SendMeMessagesService,
+              private toastMessage: ToastMessageService) {
 
     if (this.authService.getToken() !== null) {
       this.isAutenticated = true;
@@ -51,5 +59,30 @@ export class SendEmailComponent {
 
   sendEmail() {
 
+    if (!this.sendEmailForm.valid) {
+      return;
+    }
+
+    const sender = this.sendEmailForm.controls.email.value
+    const text = this.sendEmailForm.controls.text.value
+
+    if (sender && text) {
+      const message: ISendMeMessage = {
+        sender: sender,
+        message: text
+      }
+
+      this.sendMeMessageService.sendMeMessage(message).subscribe({
+        next: (resp: ISuccessResponse) => {
+          this.toastMessage.show("success", "Invio Messaggio", resp.message)
+          this.sendEmailForm.reset()
+        },
+        error: (err: HttpErrorResponse) => {
+          const errObj = err.error as IErrorResponse
+          this.toastMessage.show("error", "Invio Messaggio", errObj.errMsg)
+        }
+      })
+
+    }
   }
 }
