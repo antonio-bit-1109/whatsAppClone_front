@@ -8,4 +8,6 @@
 -[] crea un toast o simile, bottone ...
 (visibile non appena viene popolata la variabile di previous route)
 per avere un unico tasto in absolute
-che ti fa tornare indietro 
+che ti fa tornare indietro
+
+-[] guardia da mettere quando accedo alla home 
