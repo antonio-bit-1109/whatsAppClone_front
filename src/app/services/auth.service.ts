@@ -71,7 +71,7 @@ export class AuthService {
       const decoded: ITokenStructure = jwtDecode(this.getToken() as string);
       return decoded.id;
     }
-    return null;
+    return 0;
   }
 
   public getUsername() {

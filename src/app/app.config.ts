@@ -4,14 +4,17 @@ import {provideRouter} from '@angular/router';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {UrlHandlerService} from './services/url-handler.service';
+import {addJWTInterceptor} from './interceptors/add-jwt.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([addJWTInterceptor])
+    ),
     provideRouter(routes),
     provideAnimationsAsync(),
     UrlHandlerService,

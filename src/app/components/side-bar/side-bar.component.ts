@@ -34,7 +34,10 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      {label: 'Chat', icon: 'pi pi-comments'},
+      {
+        label: 'Chats', icon: 'pi pi-comments',
+        command: () => this.navigateToComponent("/home/chats-main"),
+      },
       {
         label: 'Profilo', icon: 'pi pi-user',
         command: () => this.navigateToComponent("/home/profile"),
