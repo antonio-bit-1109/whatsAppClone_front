@@ -1,13 +1,16 @@
-<ng-container *ngFor="let obj of this.chatList">
-  <button pButton class="d-flex justify-content-start my-1 align-items-center gap-1 w-100 position-relative move-it">
-    <app-image-component classes="rounded rounded-5" height="50" width="50"
-                         [src]="obj.listaPartecipanti[1].profileImage"/>
-    <div>
-      <p
-        class="mx-1">{{ obj.listaPartecipanti[1].nome.toUpperCase() + " " + obj.listaPartecipanti[1].cognome.toUpperCase() }}</p>
-    </div>
-    <div class="position-absolute bottom-0 end-0">
-      <p class="m-0 ms-auto me-2">created at: {{ obj.createdAt | date :'shortDate' }}</p>
-    </div>
-  </button>
-</ng-container>
+<div class="mt-3">
+  <ng-container *ngFor="let obj of this.chatList">
+    <button pButton class="d-flex justify-content-start my-1 align-items-center gap-1 w-100 position-relative move-it">
+      <app-image-component classes="rounded rounded-5" height="50" width="50"
+                           [src]="obj.listaPartecipanti[1].profileImage"/>
+      <div>
+        <p
+          class="mx-1">{{ obj.listaPartecipanti[1].nome.toUpperCase() + " " + obj.listaPartecipanti[1].cognome.toUpperCase() }}</p>
+      </div>
+      <div class="position-absolute bottom-0 end-0">
+        <p class="m-0 ms-auto me-2">created at: {{ obj.createdAt | date :'shortDate' }}</p>
+      </div>
+    </button>
+  </ng-container>
+</div>
+
