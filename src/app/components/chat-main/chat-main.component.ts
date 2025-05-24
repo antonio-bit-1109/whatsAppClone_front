@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {ChatsListComponent} from '../chats-list/chats-list.component';
-import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
+import {ChatWindowComponent} from '../chat-window/chat-window.component';
 
 @Component({
   selector: 'app-chat-main',
   imports: [
     ChatsListComponent,
-    ChatEditorComponent
+    ChatWindowComponent
   ],
   templateUrl: './chat-main.component.html',
   styleUrl: './chat-main.component.scss'
