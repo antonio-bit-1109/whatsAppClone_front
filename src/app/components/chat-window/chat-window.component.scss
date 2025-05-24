@@ -1,0 +1,21 @@
+@import "../../../color";
+
+.vh-95 {
+  height: 95vh;
+}
+
+.background {
+  background-image: url("../../../assets/texture_wall_2.png");
+  background-size: cover; /* o contain, a seconda dell'effetto desiderato */
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.black {
+  background-color: $color-black;
+}
+
+.basic-text {
+  color: $color-secondary;
+}
