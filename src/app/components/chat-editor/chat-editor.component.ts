@@ -16,9 +16,10 @@ export class ChatEditorComponent implements OnInit {
 
     const editor = new Editor({
       el: document.querySelector('#editor'),
-      height: '200px',
+      height: '150px',
+      width: '100%',
       initialEditType: 'wysiwyg',
-      initialValue: "Inserisci messaggio.",
+      initialValue: "",
       previewStyle: 'tab',
     });
     this.editorInstance = editor;
