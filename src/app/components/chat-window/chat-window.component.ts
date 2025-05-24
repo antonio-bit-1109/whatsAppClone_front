@@ -4,7 +4,8 @@ import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
 import {ImageComponentComponent} from '../image-component/image-component.component';
 import {Button} from 'primeng/button';
-import {NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
+import {UtilityMethodService} from '../../services/utility-method.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -13,7 +14,8 @@ import {NgIf} from '@angular/common';
     Panel,
     ImageComponentComponent,
     Button,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'
@@ -22,6 +24,9 @@ export class ChatWindowComponent implements OnChanges {
 
   @Input() public selectedchat: IChatDto | null = null;
   public populated: boolean = false;
+
+  constructor(protected utilityMethod: UtilityMethodService) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedchat']) {
