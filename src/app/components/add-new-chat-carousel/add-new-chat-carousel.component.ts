@@ -43,6 +43,30 @@ export const productsData: Product[] = [
     rating: 4
   },
   {
+    id: '1001',
+    code: 'nvklal433',
+    name: 'Black Watch',
+    description: 'Product Description',
+    image: 'black-watch.jpg',
+    price: 72,
+    category: 'Accessories',
+    quantity: 61,
+    inventoryStatus: 'INSTOCK',
+    rating: 4
+  },
+  {
+    id: '1001',
+    code: 'nvklal433',
+    name: 'Black Watch',
+    description: 'Product Description',
+    image: 'black-watch.jpg',
+    price: 72,
+    category: 'Accessories',
+    quantity: 61,
+    inventoryStatus: 'INSTOCK',
+    rating: 4
+  },
+  {
     id: '1002',
     code: 'zz21cz3c1',
     name: 'Blue Band',
