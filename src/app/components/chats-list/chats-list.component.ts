@@ -34,25 +34,27 @@ export class ChatsListComponent {
   public getChatList() {
     this.chatService.getAllUserChat(this.authService.getUserId()).subscribe({
       next: (resp) => {
+        this.chatList = resp;
+        console.log(resp, "risposta my dearrrr")
         // riordino la lista di chat così che l'utente che sta visualizzando la lista di chat
         // e che si trova nella lista partecipanti, sia sempre ad indice 0 (zero)
-        const fullName = this.authService.getFullName()
-
-        resp.forEach(obj => {
-
-          const currIndex = obj.listaPartecipanti.findIndex(p =>
-            (p.nome + " " + p.cognome).trim() === fullName
-          );
-
-          if (currIndex !== 0) {
-            const removed = obj.listaPartecipanti.splice(currIndex, 1)[0]
-            obj.listaPartecipanti.unshift(removed);
-          }
-
-        })
-
-        this.chatList = resp;
-        console.log(this.chatList)
+        // const fullName = this.authService.getFullName()
+        //
+        // resp.forEach(obj => {
+        //
+        //   const currIndex = obj.listaPartecipanti.findIndex(p =>
+        //     (p.nome + " " + p.cognome).trim() === fullName
+        //   );
+        //
+        //   if (currIndex !== 0) {
+        //     const removed = obj.listaPartecipanti.splice(currIndex, 1)[0]
+        //     obj.listaPartecipanti.unshift(removed);
+        //   }
+        //
+        // })
+        //
+        // this.chatList = resp;
+        // console.log(this.chatList)
       },
       error: (err: HttpErrorResponse) => {
         this.toastService.show("error", "errore", "errore nel reperimento delle chat")
