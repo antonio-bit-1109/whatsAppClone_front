@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {AuthService} from '../../services/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -24,6 +24,7 @@ import {AddNewChatCarouselComponent} from '../add-new-chat-carousel/add-new-chat
 export class ChatsListComponent {
 
   public chatList: IChatDto[] | undefined;
+  @Output() emitter = new EventEmitter()
 
   constructor(private chatService: ChatService,
               private authService: AuthService,
@@ -43,5 +44,9 @@ export class ChatsListComponent {
         this.toastService.show("error", "errore", "errore nel reperimento delle chat")
       }
     })
+  }
+
+  public emergeSelectedChat(obj: IChatDto) {
+    this.emitter.emit(obj)
   }
 }

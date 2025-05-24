@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ChatsListComponent} from '../chats-list/chats-list.component';
 import {ChatWindowComponent} from '../chat-window/chat-window.component';
+import {IChatDto} from '../../interfaces/chat';
 
 @Component({
   selector: 'app-chat-main',
@@ -13,4 +14,9 @@ import {ChatWindowComponent} from '../chat-window/chat-window.component';
 })
 export class ChatMainComponent {
 
+  public emittedChat: IChatDto | null = null;
+
+  public takeEmittedChatValue(event: any) {
+    this.emittedChat = event
+  }
 }

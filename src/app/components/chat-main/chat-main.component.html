@@ -1,10 +1,10 @@
 <div class="row justify-content-start widthMin min-vh-100">
   <div class="col-12 col-md-5 col-lg-4">
-    <app-chats-list/>
+    <app-chats-list (emitter)="this.takeEmittedChatValue($event)"/>
   </div>
 
   <div class="col-12 col-md-7 col-lg-6 flex-grow-1 h-100">
-    <app-chat-window/>
+    <app-chat-window [selectedchat]="this.emittedChat"/>
   </div>
 
 </div>
