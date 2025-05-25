@@ -59,6 +59,7 @@ export class SideBarComponent implements OnInit {
 
   public navigateToComponent(routerPath: string) {
     void this.router.navigateByUrl(routerPath)
+    this.visible = false;
   }
 
   public logout() {
