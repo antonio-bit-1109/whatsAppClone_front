@@ -1,8 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Button} from 'primeng/button';
 import {Carousel} from 'primeng/carousel';
 import {Tag} from 'primeng/tag';
 import {NgStyle} from '@angular/common';
+import {ChatService} from '../../services/chat.service';
+import {AuthService} from '../../services/auth.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {IminimalUserinfo} from '../../interfaces/auth';
+import {ToastMessageService} from '../../services/toast-message.service';
+import {ImageComponentComponent} from '../image-component/image-component.component';
 
 export interface Product {
   id: string;
@@ -17,93 +23,31 @@ export interface Product {
   rating: number;
 }
 
-export const productsData: Product[] = [
-  {
-    id: '1000',
-    code: 'f230fh0g3',
-    name: 'Bamboo Watch',
-    description: 'Product Description',
-    image: 'bamboo-watch.jpg',
-    price: 65,
-    category: 'Accessories',
-    quantity: 24,
-    inventoryStatus: 'INSTOCK',
-    rating: 5
-  },
-  {
-    id: '1001',
-    code: 'nvklal433',
-    name: 'Black Watch',
-    description: 'Product Description',
-    image: 'black-watch.jpg',
-    price: 72,
-    category: 'Accessories',
-    quantity: 61,
-    inventoryStatus: 'INSTOCK',
-    rating: 4
-  },
-  {
-    id: '1001',
-    code: 'nvklal433',
-    name: 'Black Watch',
-    description: 'Product Description',
-    image: 'black-watch.jpg',
-    price: 72,
-    category: 'Accessories',
-    quantity: 61,
-    inventoryStatus: 'INSTOCK',
-    rating: 4
-  },
-  {
-    id: '1001',
-    code: 'nvklal433',
-    name: 'Black Watch',
-    description: 'Product Description',
-    image: 'black-watch.jpg',
-    price: 72,
-    category: 'Accessories',
-    quantity: 61,
-    inventoryStatus: 'INSTOCK',
-    rating: 4
-  },
-  {
-    id: '1002',
-    code: 'zz21cz3c1',
-    name: 'Blue Band',
-    description: 'Product Description',
-    image: 'blue-band.jpg',
-    price: 79,
-    category: 'Fitness',
-    quantity: 2,
-    inventoryStatus: 'LOWSTOCK',
-    rating: 3
-  }
-]
-
 @Component({
   selector: 'app-add-new-chat-carousel',
   imports: [
     Carousel,
-    Tag,
-    NgStyle,
-    Button
+    Button,
+    ImageComponentComponent
   ],
   templateUrl: './add-new-chat-carousel.component.html',
   styleUrl: './add-new-chat-carousel.component.scss'
 })
-export class AddNewChatCarouselComponent {
-  products: Product[] = productsData;
+export class AddNewChatCarouselComponent implements OnInit {
+
+  public peoples: IminimalUserinfo[] = [];
 
   responsiveOptions: any[] | undefined;
 
-  constructor() {
+  constructor(private chatService: ChatService,
+              private authService: AuthService,
+              private toastService: ToastMessageService) {
   }
 
   ngOnInit() {
-    // this.productService.getProductsSmall().then((products) => {
-    //   this.products = products;
-    // });
 
+
+    this.getPeopleICanStartIChat();
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -134,5 +78,22 @@ export class AddNewChatCarouselComponent {
     }
 
     return 'null'
+  }
+
+  public getPeopleICanStartIChat() {
+    return this.chatService.getPeopleICanStartChat(this.authService.getUserId())
+      .subscribe({
+        next: (resp) => {
+          this.peoples = resp
+          console.log(this.peoples)
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toastService.show(
+            "error",
+            "errore",
+            "errore durante il reperimento degli utenti."
+          )
+        }
+      })
   }
 }

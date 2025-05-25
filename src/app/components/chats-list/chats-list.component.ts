@@ -3,11 +3,12 @@ import {ChatService} from '../../services/chat.service';
 import {AuthService} from '../../services/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastMessageService} from '../../services/toast-message.service';
-import {IChatDto, Partecipante} from '../../interfaces/chat'
-import {DatePipe, NgForOf} from '@angular/common';
+import {IChatDto} from '../../interfaces/chat'
+import {DatePipe, NgForOf, NgIf} from '@angular/common';
 import {ImageComponentComponent} from '../image-component/image-component.component';
 import {ButtonDirective} from 'primeng/button';
 import {AddNewChatCarouselComponent} from '../add-new-chat-carousel/add-new-chat-carousel.component';
+import {Panel} from 'primeng/panel';
 
 @Component({
   selector: 'app-chats-list',
@@ -16,7 +17,9 @@ import {AddNewChatCarouselComponent} from '../add-new-chat-carousel/add-new-chat
     DatePipe,
     ImageComponentComponent,
     ButtonDirective,
-    AddNewChatCarouselComponent
+    AddNewChatCarouselComponent,
+    NgIf,
+    Panel
   ],
   templateUrl: './chats-list.component.html',
   styleUrl: './chats-list.component.scss'

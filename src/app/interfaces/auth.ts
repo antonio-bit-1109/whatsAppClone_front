@@ -25,3 +25,12 @@ export interface ITokenStructure {
   full_name: string
 
 }
+
+
+export interface IminimalUserinfo {
+  "id": number,
+  "name": string,
+  "surname": string,
+  "username": string,
+  profilePhoto: string
+}
