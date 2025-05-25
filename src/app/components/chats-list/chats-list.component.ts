@@ -27,6 +27,7 @@ import {Panel} from 'primeng/panel';
 export class ChatsListComponent {
 
   public chatList: IChatDto[] | undefined;
+
   @Output() emitter = new EventEmitter()
 
   constructor(private chatService: ChatService,
@@ -41,7 +42,6 @@ export class ChatsListComponent {
     this.chatService.getAllUserChat(this.authService.getUserId()).subscribe({
       next: (resp) => {
         this.chatList = resp;
-        console.log(resp, "risposta my dearrrr")
       },
       error: (err: HttpErrorResponse) => {
         this.toastService.show("error", "errore", "errore nel reperimento delle chat")
@@ -51,5 +51,9 @@ export class ChatsListComponent {
 
   public emergeSelectedChat(obj: IChatDto) {
     this.emitter.emit(obj)
+  }
+
+  public takeEmissionFromCarousel(event: any) {
+    event && this.getChatList()
   }
 }

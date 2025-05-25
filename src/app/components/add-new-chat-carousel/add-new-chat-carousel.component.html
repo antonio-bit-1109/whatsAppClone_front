@@ -1,4 +1,4 @@
-<div class="card">
+<div *ngIf="this.peoples.length > 0" class="card">
   <p-carousel [value]="this.peoples" [numVisible]="1" [numScroll]="1" orientation="vertical"
               verticalViewPortHeight="330px"
               contentClass="flex items-center">
@@ -12,8 +12,8 @@
         <div class="flex justify-between items-center">
           <div class="mt-0 font-semibold text-xl">{{ person.surname }}</div>
           <span>
-                        <p-button icon="pi pi-user-plus" severity="secondary" label="start new chat" [outlined]="true"/>
-            <!--                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2"/>-->
+                        <p-button (click)="this.startNewChat(person)" icon="pi pi-user-plus" label="start new chat"
+                                  [outlined]="true"/>
                     </span>
         </div>
       </div>

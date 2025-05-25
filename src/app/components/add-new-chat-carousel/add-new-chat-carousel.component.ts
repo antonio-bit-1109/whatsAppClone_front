@@ -1,14 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Button} from 'primeng/button';
 import {Carousel} from 'primeng/carousel';
-import {Tag} from 'primeng/tag';
-import {NgStyle} from '@angular/common';
 import {ChatService} from '../../services/chat.service';
 import {AuthService} from '../../services/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {IminimalUserinfo} from '../../interfaces/auth';
 import {ToastMessageService} from '../../services/toast-message.service';
 import {ImageComponentComponent} from '../image-component/image-component.component';
+import {NgIf} from '@angular/common';
 
 export interface Product {
   id: string;
@@ -28,7 +27,8 @@ export interface Product {
   imports: [
     Carousel,
     Button,
-    ImageComponentComponent
+    ImageComponentComponent,
+    NgIf
   ],
   templateUrl: './add-new-chat-carousel.component.html',
   styleUrl: './add-new-chat-carousel.component.scss'
@@ -38,6 +38,7 @@ export class AddNewChatCarouselComponent implements OnInit {
   public peoples: IminimalUserinfo[] = [];
 
   responsiveOptions: any[] | undefined;
+  @Output() public notifySuccess = new EventEmitter()
 
   constructor(private chatService: ChatService,
               private authService: AuthService,
@@ -67,19 +68,6 @@ export class AddNewChatCarouselComponent implements OnInit {
     ];
   }
 
-  getSeverity(status: string) {
-    switch (status) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warn';
-      case 'OUTOFSTOCK':
-        return 'danger';
-    }
-
-    return 'null'
-  }
-
   public getPeopleICanStartIChat() {
     return this.chatService.getPeopleICanStartChat(this.authService.getUserId())
       .subscribe({
@@ -95,5 +83,22 @@ export class AddNewChatCarouselComponent implements OnInit {
           )
         }
       })
+  }
+
+  public startNewChat(person: any) {
+    const p = person as IminimalUserinfo
+    this.chatService.startingANewChat(p).subscribe({
+      next: (resp) => {
+        this.toastService.show("success",
+          "creazione nuova chat",
+          resp.message)
+        this.notifySuccess.emit(crypto.randomUUID())
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastService.show("error",
+          "creazione nuova chat",
+          "errore durante la creazione chat")
+      }
+    })
   }
 }

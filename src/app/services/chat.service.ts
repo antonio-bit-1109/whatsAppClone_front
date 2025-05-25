@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IChatDto} from '../interfaces/chat';
 import {IminimalUserinfo} from '../interfaces/auth';
+import {AuthService} from './auth.service';
+import {ISuccessResponse} from '../interfaces/SuccessResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class ChatService {
   private url1 = "http://localhost:8080/auth"
 
   constructor(private http: HttpClient,
+              private authService: AuthService
   ) {
   }
 
@@ -22,5 +25,16 @@ export class ChatService {
 
   public getPeopleICanStartChat(idUser: number): Observable<IminimalUserinfo[]> {
     return this.http.get<IminimalUserinfo[]>(`${this.url1}/get/all/${idUser}`)
+  }
+
+  public startingANewChat(person: IminimalUserinfo): Observable<ISuccessResponse> {
+    const arr = []
+    arr.push(person.id)
+    arr.push(this.authService.getUserId())
+    const obj = {
+      listaPartecipanti: arr
+    }
+
+    return this.http.post<ISuccessResponse>(`${this.url}/create`, obj)
   }
 }
