@@ -46,4 +46,7 @@
   <div class="position-absolute bottom-0 end-0 start-0">
     <app-chat-editor/>
   </div>
+  <ng-container *ngIf="this.selectedchat">
+    <p-button class="p-2" label="Invia Messaggio"/>
+  </ng-container>
 </div>

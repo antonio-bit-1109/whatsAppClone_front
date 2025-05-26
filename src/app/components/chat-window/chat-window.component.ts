@@ -3,7 +3,7 @@ import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
 import {ImageComponentComponent} from '../image-component/image-component.component';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {UtilityMethodService} from '../../services/utility-method.service';
 
@@ -15,7 +15,8 @@ import {UtilityMethodService} from '../../services/utility-method.service';
     ImageComponentComponent,
     Button,
     NgIf,
-    NgForOf
+    NgForOf,
+    ButtonDirective
   ],
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'

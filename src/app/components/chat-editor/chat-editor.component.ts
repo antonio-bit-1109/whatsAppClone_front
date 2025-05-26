@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 // @ts-ignore
 import Editor from '@toast-ui/editor';
 
@@ -14,7 +14,7 @@ export class ChatEditorComponent implements OnInit {
 
   ngOnInit() {
 
-    const editor = new Editor({
+    this.editorInstance = new Editor({
       el: document.querySelector('#editor'),
       height: '150px',
       width: '100%',
@@ -22,13 +22,7 @@ export class ChatEditorComponent implements OnInit {
       initialValue: "",
       previewStyle: 'tab',
     });
-    this.editorInstance = editor;
-    editor.getMarkdown();
   }
-
-  // submitForm() {
-  //   console.log(this.editorInstance.getMarkdown());
-  //   console.log((this.editorInstance as Editor).getHTML());
-  // }
+  
 
 }
