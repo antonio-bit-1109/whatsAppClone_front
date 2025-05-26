@@ -48,7 +48,7 @@ export class AddNewChatCarouselComponent implements OnInit {
   ngOnInit() {
 
 
-    this.getPeopleICanStartIChat();
+    this.getPeopleICanStartAChat();
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -68,7 +68,7 @@ export class AddNewChatCarouselComponent implements OnInit {
     ];
   }
 
-  public getPeopleICanStartIChat() {
+  public getPeopleICanStartAChat() {
     return this.chatService.getPeopleICanStartChat(this.authService.getUserId())
       .subscribe({
         next: (resp) => {
@@ -93,6 +93,7 @@ export class AddNewChatCarouselComponent implements OnInit {
           "creazione nuova chat",
           resp.message)
         this.notifySuccess.emit(crypto.randomUUID())
+        this.getPeopleICanStartAChat()
       },
       error: (err: HttpErrorResponse) => {
         this.toastService.show("error",
