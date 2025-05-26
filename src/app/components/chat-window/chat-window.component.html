@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center
+<div class="d-flex flex-column align-items-center
  black mt-3 rounded-5 vh-95 background
   basic-text position-relative"
 >
@@ -41,12 +41,18 @@
       </ul>
 
     </p-panel>
+
+    <!--    contenitore messaggi-->
+    <div class="d-flex flex-column w-100" *ngFor="let messObj of this.selectedchat?.messaggi">
+      <app-comic [messaggio]="messObj"/>
+    </div>
+
   </ng-container>
   <!--  editor-->
   <div class="position-absolute bottom-0 end-0 start-0">
     <app-chat-editor/>
   </div>
-  <ng-container *ngIf="this.selectedchat">
-    <p-button class="p-2" label="Invia Messaggio"/>
-  </ng-container>
+  <!--  <ng-container *ngIf="this.selectedchat">-->
+  <!--    <p-button class="p-2" label="Invia Messaggio"/>-->
+  <!--  </ng-container>-->
 </div>

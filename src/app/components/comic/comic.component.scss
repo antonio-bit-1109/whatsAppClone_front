@@ -1,0 +1,18 @@
+.bubble {
+  max-width: 60%;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 20px;
+  position: relative;
+  font-family: sans-serif;
+}
+
+.mine {
+  background-color: #005F4F;
+  margin-inline-start: auto;
+}
+
+.yours {
+  background-color: #616563;
+  margin-inline-end: auto;
+}

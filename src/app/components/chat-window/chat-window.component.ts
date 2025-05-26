@@ -6,6 +6,7 @@ import {ImageComponentComponent} from '../image-component/image-component.compon
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {UtilityMethodService} from '../../services/utility-method.service';
+import {ComicComponent} from '../comic/comic.component';
 
 @Component({
   selector: 'app-chat-window',
@@ -16,7 +17,7 @@ import {UtilityMethodService} from '../../services/utility-method.service';
     Button,
     NgIf,
     NgForOf,
-    ButtonDirective
+    ComicComponent
   ],
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'

@@ -8,13 +8,10 @@ export interface Partecipante {
 }
 
 export interface Messaggio {
-  // Aggiungi qui le proprietà dei messaggi quando saranno disponibili
-  // Per esempio:
-  // id: string;
-  // testo: string;
-  // mittente: string;
-  // timestamp: string;
-  // letto: boolean;
+  content: string,
+  messageStatus: string,
+  sendAtTime: string,
+  userSender: string
 }
 
 export interface IChatDto {

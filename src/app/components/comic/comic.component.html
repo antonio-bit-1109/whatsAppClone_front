@@ -1,0 +1,5 @@
+<div class="bubble"
+     [ngClass]="checkIfSenderIsMe() ? 'mine' : 'yours'">
+  {{ this.messaggio?.content }}
+</div>
+
