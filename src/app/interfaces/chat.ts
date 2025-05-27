@@ -11,7 +11,8 @@ export interface Messaggio {
   content: string,
   messageStatus: string,
   sendAtTime: string,
-  userSender: string
+  userSender: string,
+  email: string
 }
 
 export interface IChatDto {

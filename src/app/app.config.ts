@@ -8,12 +8,13 @@ import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {UrlHandlerService} from './services/url-handler.service';
 import {addJWTInterceptor} from './interceptors/add-jwt.interceptor';
+import {intercept401Interceptor} from './interceptors/intercept-401.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}),
     provideHttpClient(
-      withInterceptors([addJWTInterceptor])
+      withInterceptors([addJWTInterceptor, intercept401Interceptor])
     ),
     provideRouter(routes),
     provideAnimationsAsync(),

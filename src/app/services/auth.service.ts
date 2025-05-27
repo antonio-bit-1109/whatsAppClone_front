@@ -82,6 +82,14 @@ export class AuthService {
     return null;
   }
 
+  public getEmail() {
+    if (this.getToken() !== null) {
+      const decoded: ITokenStructure = jwtDecode(this.getToken() as string);
+      return decoded.email;
+    }
+    return null;
+  }
+
   // Login con Google
   loginWithGoogle() {
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';

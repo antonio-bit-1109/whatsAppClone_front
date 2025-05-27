@@ -20,6 +20,6 @@ export class ComicComponent {
 
 
   public checkIfSenderIsMe() {
-    return this.messaggio?.userSender === this.authService.getUsername()
+    return this.messaggio?.email === this.authService.getEmail()
   }
 }
