@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+
 // @ts-ignore
 import Editor from '@toast-ui/editor';
-
 
 @Component({
   selector: 'app-chat-editor',
@@ -10,7 +10,8 @@ import Editor from '@toast-ui/editor';
   styleUrl: './chat-editor.component.scss'
 })
 export class ChatEditorComponent implements OnInit {
-  public editorInstance: any;
+  public editorInstance: Editor | undefined;
+  @Output() emitMarkDown = new EventEmitter();
 
   ngOnInit() {
 
@@ -22,7 +23,14 @@ export class ChatEditorComponent implements OnInit {
       initialValue: "",
       previewStyle: 'tab',
     });
+
+    this.editorInstance.on('change', () => {
+      this.getMarkDownContent();
+    });
   }
-  
+
+  public getMarkDownContent() {
+    this.emitMarkDown.emit(this.editorInstance.getMarkdown())
+  }
 
 }

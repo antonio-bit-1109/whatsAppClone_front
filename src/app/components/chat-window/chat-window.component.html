@@ -3,45 +3,56 @@
   basic-text position-relative"
 >
   <ng-container *ngIf="this.populated"> <!--window chat-->
-    <p-panel class="w-100" collapsed="true" [toggleable]="true">
 
-      <ng-template #header>
-        <div class="d-flex align-items-center gap-2">
-          <app-image-component classes="rounded rounded-5" width="60" height="60"
-                               [src]="this.takePartecipante().profileImage"/>
-          <span class="font-bold fs-3 ms-2">
+    <div class="w-100">
+      <div class="row">
+        <div class="col-md-9">
+          <p-panel class="w-100" collapsed="true" [toggleable]="true">
+
+            <ng-template #header>
+              <div class="d-flex align-items-center gap-2">
+                <app-image-component classes="rounded rounded-5" width="60" height="60"
+                                     [src]="this.takePartecipante().profileImage"/>
+                <span class="font-bold fs-3 ms-2">
             {{
-              this.utilityMethod
-                .firstLetterUpperCase(this.takePartecipante().nome) + " " + this.utilityMethod
-                .firstLetterUpperCase(this.takePartecipante().cognome)
-            }}
+                    this.utilityMethod
+                      .firstLetterUpperCase(this.takePartecipante().nome) + " " + this.utilityMethod
+                      .firstLetterUpperCase(this.takePartecipante().cognome)
+                  }}
           </span>
+              </div>
+            </ng-template>
+            <ng-template #footer>
+              <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                  <p-button icon="pi pi-user" rounded text></p-button>
+                  <p-button icon="pi pi-bookmark" severity="secondary" rounded text></p-button>
+                </div>
+                <span class="text-surface-500 dark:text-surface-400">Updated 2 hours ago</span>
+              </div>
+            </ng-template>
+            <ng-template #icons>
+            </ng-template>
+            <ul>
+              <li>{{ this.takePartecipante().email }}</li>
+              <li>{{ this.takePartecipante().username }}</li>
+              <li>{{
+                  this.takePartecipante().telefono ?
+                    this.takePartecipante().telefono :
+                    "NON DISPONIBILE"
+                }}
+              </li>
+            </ul>
+
+          </p-panel>
         </div>
-      </ng-template>
-      <ng-template #footer>
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-2">
-            <p-button icon="pi pi-user" rounded text></p-button>
-            <p-button icon="pi pi-bookmark" severity="secondary" rounded text></p-button>
+        <div class="col-md-2">
+          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+            <p-button (click)="this.sendMessage()" label="Invia Messaggio"/>
           </div>
-          <span class="text-surface-500 dark:text-surface-400">Updated 2 hours ago</span>
         </div>
-      </ng-template>
-      <ng-template #icons>
-      </ng-template>
-      <ul>
-        <li>{{ this.takePartecipante().email }}</li>
-        <li>{{ this.takePartecipante().username }}</li>
-        <li>{{
-            this.takePartecipante().telefono ?
-              this.takePartecipante().telefono :
-              "NON DISPONIBILE"
-          }}
-        </li>
-      </ul>
-
-    </p-panel>
-
+      </div>
+    </div>
     <!--    contenitore messaggi-->
     <div class="d-flex flex-column w-100" *ngFor="let messObj of this.selectedchat?.messaggi">
       <app-comic [messaggio]="messObj"/>
@@ -50,9 +61,7 @@
   </ng-container>
   <!--  editor-->
   <div class="position-absolute bottom-0 end-0 start-0">
-    <app-chat-editor/>
+    <app-chat-editor (emitMarkDown)="this.getMarkDown($event)"/>
   </div>
-  <!--  <ng-container *ngIf="this.selectedchat">-->
-  <!--    <p-button class="p-2" label="Invia Messaggio"/>-->
-  <!--  </ng-container>-->
+
 </div>

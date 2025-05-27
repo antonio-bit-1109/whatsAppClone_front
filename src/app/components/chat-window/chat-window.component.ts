@@ -3,10 +3,14 @@ import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
 import {ImageComponentComponent} from '../image-component/image-component.component';
-import {Button, ButtonDirective} from 'primeng/button';
+import {Button} from 'primeng/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {UtilityMethodService} from '../../services/utility-method.service';
 import {ComicComponent} from '../comic/comic.component';
+import {ChatService} from '../../services/chat.service';
+import {IMessageAddChat} from '../../interfaces/Message';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -26,8 +30,11 @@ export class ChatWindowComponent implements OnChanges {
 
   @Input() public selectedchat: IChatDto | null = null;
   public populated: boolean = false;
+  public markdownContent: string | undefined;
 
-  constructor(protected utilityMethod: UtilityMethodService) {
+  constructor(protected utilityMethod: UtilityMethodService,
+              private chatService: ChatService,
+              private authService: AuthService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -42,5 +49,30 @@ export class ChatWindowComponent implements OnChanges {
   public takePartecipante() {
     return this.selectedchat && this.selectedchat?.listaPartecipanti ?
       this.selectedchat.listaPartecipanti[0] : [][0]
+  }
+
+  // inviare il messaggio al server
+  public sendMessage() {
+
+    const reqData: IMessageAddChat = {
+      chatIdentity: this.selectedchat?.chatIdentity ? this.selectedchat.chatIdentity : "default",
+      text: this.markdownContent ? this.markdownContent : "default",
+      userOwnerId: this.authService.getUserId()
+    }
+
+    this.chatService.addMessageToChat(reqData).subscribe({
+      next: (resp) => {
+        console.log(resp)
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err.error)
+      }
+    })
+  }
+
+  // prende il markdown presente nel componente app-chat-editor
+  // e lo salva dentro la prop this.markdownContent
+  public getMarkDown(event: any) {
+    this.markdownContent = event;
   }
 }

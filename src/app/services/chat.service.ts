@@ -5,6 +5,7 @@ import {IChatDto} from '../interfaces/chat';
 import {IminimalUserinfo} from '../interfaces/auth';
 import {AuthService} from './auth.service';
 import {ISuccessResponse} from '../interfaces/SuccessResponse';
+import {IMessageAddChat} from '../interfaces/Message';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,10 @@ export class ChatService {
     }
 
     return this.http.post<ISuccessResponse>(`${this.url}/create`, obj)
+  }
+
+
+  public addMessageToChat(data: IMessageAddChat) {
+    return this.http.post(`${this.url}/post/message`, data)
   }
 }
