@@ -54,14 +54,17 @@
       </div>
     </div>
     <!--    contenitore messaggi-->
-    <div class="d-flex flex-column w-100" *ngFor="let messObj of this.selectedchat?.messaggi">
-      <app-comic [messaggio]="messObj"/>
+    <div class="w-100 h-custom overflow-y-scroll">
+      <div class="d-flex flex-column w-100" *ngFor="let messObj of this.selectedchat?.messaggi">
+        <app-comic [messaggio]="messObj"/>
+      </div>
     </div>
+
 
   </ng-container>
   <!--  editor-->
-  <div class="position-absolute bottom-0 end-0 start-0">
-    <app-chat-editor (emitMarkDown)="this.getMarkDown($event)"/>
+  <div class="position-absolute bottom-0 end-0 start-0 ">
+    <app-chat-editor [cleanMarkDown]="this.cleanMarkdown" (emitMarkDown)="this.getMarkDown($event)"/>
   </div>
 
 </div>

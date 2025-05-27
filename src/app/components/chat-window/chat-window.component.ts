@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
@@ -31,6 +31,7 @@ export class ChatWindowComponent implements OnChanges {
   @Input() public selectedchat: IChatDto | null = null;
   public populated: boolean = false;
   public markdownContent: string | undefined;
+  public cleanMarkdown: string | null = null;
 
   constructor(protected utilityMethod: UtilityMethodService,
               private chatService: ChatService,
@@ -54,6 +55,10 @@ export class ChatWindowComponent implements OnChanges {
   // inviare il messaggio al server
   public sendMessage() {
 
+    if (this.markdownContent === "" || !this.markdownContent) {
+      return
+    }
+
     const reqData: IMessageAddChat = {
       chatIdentity: this.selectedchat?.chatIdentity ? this.selectedchat.chatIdentity : "default",
       text: this.markdownContent ? this.markdownContent : "default",
@@ -63,6 +68,7 @@ export class ChatWindowComponent implements OnChanges {
     this.chatService.addMessageToChat(reqData).subscribe({
       next: (resp) => {
         console.log(resp)
+        this.cleanMarkdown = crypto.randomUUID()
       },
       error: (err: HttpErrorResponse) => {
         console.error(err.error)
