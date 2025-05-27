@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges} from '@angular/core';
 
 // @ts-ignore
 import Editor from '@toast-ui/editor';
@@ -9,9 +9,10 @@ import Editor from '@toast-ui/editor';
   templateUrl: './chat-editor.component.html',
   styleUrl: './chat-editor.component.scss'
 })
-export class ChatEditorComponent implements OnInit {
+export class ChatEditorComponent implements OnInit, OnChanges {
   public editorInstance: Editor | undefined;
   @Output() emitMarkDown = new EventEmitter();
+  @Input() public cleanMarkDown: string | null = null;
 
   ngOnInit() {
 
@@ -27,6 +28,13 @@ export class ChatEditorComponent implements OnInit {
     this.editorInstance.on('change', () => {
       this.getMarkDownContent();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['cleanMarkDown'].currentValue != changes['cleanMarkDown'].previousValue) {
+      console.log(this.cleanMarkDown)
+      this.editorInstance.setMarkdown("")
+    }
   }
 
   public getMarkDownContent() {
