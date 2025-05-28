@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {AudioPlayerService} from '../../services/audio-player.service';
 import {ImageComponentComponent} from '../image-component/image-component.component';
 import {UrlHandlerService} from '../../services/url-handler.service';
+import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -29,7 +30,8 @@ export class SideBarComponent implements OnInit {
   constructor(protected authService: AuthService,
               private router: Router,
               private audioPlayerService: AudioPlayerService,
-              private urlHandler: UrlHandlerService) {
+              private urlHandler: UrlHandlerService,
+              private webSocketService: HandleWebSocketConnectionService) {
   }
 
   ngOnInit() {
@@ -64,6 +66,7 @@ export class SideBarComponent implements OnInit {
 
   public logout() {
     this.authService.logout()
+    this.webSocketService.disconnectToServerSocket()
     this.audioPlayerService.startNewAudio("assets/fart2.mp3")
   }
 
