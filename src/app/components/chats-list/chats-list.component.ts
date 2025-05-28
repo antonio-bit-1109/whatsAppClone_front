@@ -9,6 +9,7 @@ import {ImageComponentComponent} from '../image-component/image-component.compon
 import {ButtonDirective} from 'primeng/button';
 import {AddNewChatCarouselComponent} from '../add-new-chat-carousel/add-new-chat-carousel.component';
 import {Panel} from 'primeng/panel';
+import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
 
 @Component({
   selector: 'app-chats-list',
@@ -32,7 +33,8 @@ export class ChatsListComponent {
 
   constructor(private chatService: ChatService,
               private authService: AuthService,
-              private toastService: ToastMessageService) {
+              private toastService: ToastMessageService,
+              private webSocketService: HandleWebSocketConnectionService) {
 
     this.getChatList()
   }
@@ -42,6 +44,13 @@ export class ChatsListComponent {
     this.chatService.getAllUserChat(this.authService.getUserId()).subscribe({
       next: (resp) => {
         this.chatList = resp;
+
+        // dopo che ottengo la chat list iscrivo l'utente a tutte le chat che possiede tramite webSOcket
+        // inviando al canale socket "/chat-private/identity_chat"
+        this.chatList.map(chat =>
+          this.webSocketService.subscribeToPrivateChat(chat.chatIdentity)
+        )
+
       },
       error: (err: HttpErrorResponse) => {
         this.toastService.show("error", "errore", "errore nel reperimento delle chat")
@@ -49,6 +58,8 @@ export class ChatsListComponent {
     })
   }
 
+  // passal oggetto chat al componente padre per la visalizzazione dei dati nella finestra di visualizzazione
+  // contenente (dati utente e messggi scambiati con il suddetto utente)
   public emergeSelectedChat(obj: IChatDto) {
     this.emitter.emit(obj)
   }

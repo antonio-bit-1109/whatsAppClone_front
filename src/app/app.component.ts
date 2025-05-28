@@ -22,6 +22,7 @@ export class AppComponent implements AfterViewInit {
               // LASCIALO LI DOV'È !!
               private urlHandler: UrlHandlerService
   ) {
+
   }
 
 
@@ -31,5 +32,8 @@ export class AppComponent implements AfterViewInit {
     } else {
       console.error("audioplayer element è null dopo afterViewInit")
     }
+
   }
+
+
 }

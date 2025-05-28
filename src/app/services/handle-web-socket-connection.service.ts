@@ -20,9 +20,9 @@ export class HandleWebSocketConnectionService {
     console.log("try to connecting web socket ...")
 
     if (this.isAlreadyConnected()) {
+      console.log("socket already connected... no action needed")
       return;
     }
-
 
     const token = this.authService.getToken();
 
@@ -54,10 +54,6 @@ export class HandleWebSocketConnectionService {
 
 
   public isAlreadyConnected(): boolean {
-    if (this.stompClient && this.stompClient.connect) {
-      return true;
-    }
-
-    return false;
+    return this.stompClient && this.stompClient.connected
   }
 }
