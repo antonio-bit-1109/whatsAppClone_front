@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 // @ts-ignore
 import SockJS from 'sockjs-client';
-import {Stomp} from '@stomp/stompjs';
+import {IMessage, Stomp} from '@stomp/stompjs';
 import {AuthService} from './auth.service';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,9 @@ export class HandleWebSocketConnectionService {
   public subscribeToPrivateChat(chatIdentity: string) {
     this.stompClient.subscribe(`/chat-private/${chatIdentity}`, (message: any) => {
       console.log("collegato alla chat: " + chatIdentity);
+      // Estrai il contenuto del messaggio dal body
+      const messageContent = (message.body);
+      console.log(messageContent, "MESSAGE CONTENTTTTTT")
     })
   }
 

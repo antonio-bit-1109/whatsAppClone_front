@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import {Toast} from 'primeng/toast';
 import {AudioPlayerService} from './services/audio-player.service';
 import {UrlHandlerService} from './services/url-handler.service';
@@ -22,7 +22,6 @@ export class AppComponent implements AfterViewInit {
               // LASCIALO LI DOV'È !!
               private urlHandler: UrlHandlerService
   ) {
-
   }
 
 
