@@ -37,47 +37,21 @@ export class ChatsListComponent {
               private toastService: ToastMessageService,
               private webSocketService: HandleWebSocketConnectionService) {
 
-    this.getChatList()
-    // this.webSocketService.getsubjectHasObservab().pipe(
-    //   take(1)
-    // ).subscribe({
-    //     next: (objArr) => {
-    //       if (objArr && objArr.length > 0) {
-    //         this.getChatList();
-    //         const lastMessage = objArr[objArr.length - 1];
-    //         this.emergeSelectedChat(this.getLastChat(lastMessage))
-    //       }
-    //       // objArr && this.getChatList()
-    //       // this.emergeSelectedChat(this.getLastChat(objArr.pop()))
-    //     },
-    //     error: (err: HttpErrorResponse) => {
-    //       console.error(err.error)
-    //     }
-    //   }
-    // )
+    this.getChatList(true)
+    this.webSocketService.$getRefetchChats().subscribe(value => {
+      value && this.getChatList(false)
+    })
   }
 
-  // public getLastChat(obj: IMessageSocket): IChatDto {
-  //
-  //   if (this.chatList && this.chatList.length > 0) {
-  //     const objChat = this.chatList.find(chat => chat.chatIdentity === obj.chatIdentity)
-  //     if (objChat) {
-  //       return objChat
-  //     }
-  //   }
-  //
-  //   return {chatIdentity: "", createdAt: "", listaPartecipanti: [], messaggi: []};
-  // }
 
-
-  public getChatList() {
+  public getChatList(isfirst: boolean) {
     this.chatService.getAllUserChat(this.authService.getUserId()).pipe(take(1)).subscribe({
       next: (resp) => {
         this.chatList = resp;
 
         // dopo che ottengo la chat list iscrivo l'utente a tutte le chat che possiede tramite webSOcket
         // inviando al canale socket "/chat-private/identity_chat"
-        this.chatList.map(chat =>
+        isfirst && this.chatList.map(chat =>
           this.webSocketService.subscribeToPrivateChat(chat.chatIdentity)
         )
 
@@ -95,6 +69,6 @@ export class ChatsListComponent {
   }
 
   public takeEmissionFromCarousel(event: any) {
-    event && this.getChatList()
+    event && this.getChatList(true)
   }
 }

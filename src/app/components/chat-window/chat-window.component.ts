@@ -11,6 +11,7 @@ import {ChatService} from '../../services/chat.service';
 import {IMessageAddChat} from '../../interfaces/Message';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../services/auth.service';
+import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -35,7 +36,8 @@ export class ChatWindowComponent implements OnChanges {
 
   constructor(protected utilityMethod: UtilityMethodService,
               private chatService: ChatService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private webSocketService: HandleWebSocketConnectionService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -69,6 +71,7 @@ export class ChatWindowComponent implements OnChanges {
       next: (resp) => {
         console.log(resp)
         this.cleanMarkdown = crypto.randomUUID()
+        this.webSocketService.refetchChats.next(crypto.randomUUID())
       },
       error: (err: HttpErrorResponse) => {
         console.error(err.error)
