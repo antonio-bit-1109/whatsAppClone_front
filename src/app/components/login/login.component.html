@@ -149,10 +149,10 @@
                     {errType:'required', nomeCampoForm:'luogoNascita', msgErr:'luogo di nascita obbligatorio'},
                     {errType:'required', nomeCampoForm:'telefono', msgErr:'telefono obbligatorio'},
                     {errType:'pattern', nomeCampoForm:'cf', msgErr:'Inserisci un codice fiscale valido'},
-                    {errType:'required', nomeCampoForm:'email', msgErr:'Formato email non valido'},
                     {errType:'minlength', nomeCampoForm:'nome', msgErr:'Il nome deve essere lungo almeno due caratteri'},
                     {errType:'minlength', nomeCampoForm:'cognome', msgErr:'Il cognome deve essere lungo almeno due caratteri'},
-                    {errType:'passwordIncorrect' , nomeCampoForm: null , msgErr:'Le password non coincidono.'}
+                    {errType:'passwordIncorrect' , nomeCampoForm: null , msgErr:'Le password non coincidono.'},
+                    {errType:'pattern' , nomeCampoForm:'email' , msgErr: 'email in formato non valido. deve essere qualcosa@qualcosa .it o .com'}
                     ]"/>
               <!--              <ul>-->
               <!--                <li class="text-danger" *ngIf="this.checkIfErrorAndTouched('username','required')">Username-->
