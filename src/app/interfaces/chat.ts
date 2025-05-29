@@ -21,3 +21,10 @@ export interface IChatDto {
   createdAt: string;
   chatIdentity: string;
 }
+
+export interface IMessageSocket {
+  "userOwnerId": number,
+  "text": string,
+  "chatIdentity": string,
+  username: string
+}

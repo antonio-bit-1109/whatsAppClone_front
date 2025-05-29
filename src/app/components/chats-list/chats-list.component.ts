@@ -10,6 +10,7 @@ import {ButtonDirective} from 'primeng/button';
 import {AddNewChatCarouselComponent} from '../add-new-chat-carousel/add-new-chat-carousel.component';
 import {Panel} from 'primeng/panel';
 import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
+import {take} from 'rxjs';
 
 @Component({
   selector: 'app-chats-list',
@@ -37,11 +38,40 @@ export class ChatsListComponent {
               private webSocketService: HandleWebSocketConnectionService) {
 
     this.getChatList()
+    // this.webSocketService.getsubjectHasObservab().pipe(
+    //   take(1)
+    // ).subscribe({
+    //     next: (objArr) => {
+    //       if (objArr && objArr.length > 0) {
+    //         this.getChatList();
+    //         const lastMessage = objArr[objArr.length - 1];
+    //         this.emergeSelectedChat(this.getLastChat(lastMessage))
+    //       }
+    //       // objArr && this.getChatList()
+    //       // this.emergeSelectedChat(this.getLastChat(objArr.pop()))
+    //     },
+    //     error: (err: HttpErrorResponse) => {
+    //       console.error(err.error)
+    //     }
+    //   }
+    // )
   }
+
+  // public getLastChat(obj: IMessageSocket): IChatDto {
+  //
+  //   if (this.chatList && this.chatList.length > 0) {
+  //     const objChat = this.chatList.find(chat => chat.chatIdentity === obj.chatIdentity)
+  //     if (objChat) {
+  //       return objChat
+  //     }
+  //   }
+  //
+  //   return {chatIdentity: "", createdAt: "", listaPartecipanti: [], messaggi: []};
+  // }
 
 
   public getChatList() {
-    this.chatService.getAllUserChat(this.authService.getUserId()).subscribe({
+    this.chatService.getAllUserChat(this.authService.getUserId()).pipe(take(1)).subscribe({
       next: (resp) => {
         this.chatList = resp;
 
