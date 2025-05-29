@@ -6,6 +6,7 @@ import {AuthService} from './auth.service';
 import {IMessageSocket} from '../interfaces/chat';
 import {ToastMessageService} from './toast-message.service';
 import {BehaviorSubject} from 'rxjs';
+import {AudioPlayerService} from './audio-player.service';
 
 
 @Injectable({
@@ -17,7 +18,8 @@ export class HandleWebSocketConnectionService {
   public refetchChats = new BehaviorSubject<{ userEmail: string, randomUUID: string, userId: string } | null>(null);
 
   constructor(private authService: AuthService,
-              private toastService: ToastMessageService
+              private toastService: ToastMessageService,
+              private audioPlayerService: AudioPlayerService
   ) {
   }
 
@@ -71,7 +73,7 @@ export class HandleWebSocketConnectionService {
             "Hai ricevuto un messaggio da " + messageContent?.userSender + " - " + messageContent.content,
             10000
           );
-
+          this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
         }
         this.refetchChats.next({randomUUID: crypto.randomUUID(), userEmail: messageContent.email, userId: ""})
       }

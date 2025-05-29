@@ -54,8 +54,8 @@
       </div>
     </div>
     <!--    contenitore messaggi-->
-    <div class="w-100 h-custom overflow-y-scroll">
-      <div class="d-flex flex-column w-100" *ngFor="let messObj of this.selectedchat?.messaggi">
+    <div class="w-100 h-mycustom  overflow-y-scroll">
+      <div class="d-flex flex-column w-100 " *ngFor="let messObj of this.selectedchat?.messaggi">
         <app-comic [messaggio]="messObj"/>
       </div>
     </div>
