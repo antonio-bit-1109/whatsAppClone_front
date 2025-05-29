@@ -57,10 +57,20 @@ export class ChatWindowComponent implements OnChanges, OnInit {
     this.chatService.getChatByIdentity(identity, userEmail, userId).subscribe({
       next: (resp) => {
         this.selectedchat = resp
+        this.scrollToBottom()
       },
       error: (err: HttpErrorResponse) => {
       }
     })
+  }
+
+  public scrollToBottom() {
+    setTimeout(() => {
+      const scrollableDiv = document.getElementById("scrollableDiv");
+      if (scrollableDiv) {
+        scrollableDiv.scrollTop = scrollableDiv.scrollHeight + 20
+      }
+    }, 100)
   }
 
   ngOnChanges(changes: SimpleChanges) {
