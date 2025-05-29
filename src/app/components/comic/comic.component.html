@@ -1,5 +1,7 @@
 <div class="bubble"
      [ngClass]="checkIfSenderIsMe() ? 'mine' : 'yours'">
   {{ this.messaggio?.content }}
+  <div class="text-secondary-emphasis d-flex justify-content-end w-100">
+    <span class="fw-bold" style="font-size: 12px">{{ this.messaggio?.sendAtTime | date:'short' }}</span></div>
 </div>
 

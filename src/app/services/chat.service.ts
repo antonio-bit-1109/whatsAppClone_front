@@ -43,4 +43,8 @@ export class ChatService {
   public addMessageToChat(data: IMessageAddChat) {
     return this.http.post(`${this.url}/post/message`, data)
   }
+
+  public getChatByIdentity(identity: string, userEmail: string, userId: string): Observable<IChatDto> {
+    return this.http.get<IChatDto>(`${this.url}/get/chat?identity=${identity}&userEmail=${userEmail}&userId=${userId}`)
+  }
 }

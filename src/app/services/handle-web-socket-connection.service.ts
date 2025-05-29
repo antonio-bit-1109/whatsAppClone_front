@@ -14,7 +14,7 @@ import {BehaviorSubject} from 'rxjs';
 export class HandleWebSocketConnectionService {
 
   private stompClient: any;
-  public refetchChats = new BehaviorSubject<string | null>(null);
+  public refetchChats = new BehaviorSubject<{ userEmail: string, randomUUID: string, userId: string } | null>(null);
 
   constructor(private authService: AuthService,
               private toastService: ToastMessageService
@@ -65,12 +65,15 @@ export class HandleWebSocketConnectionService {
       const messageContent: IMessageSocket = JSON.parse(message.body);
       console.log(messageContent, "MESSAGE CONTENTTTTTT")
       if (messageContent) {
-        if (messageContent.userOwnerId !== this.authService.getUserId()) {
+        if (messageContent.email !== this.authService.getEmail()) {
           this.toastService.show("info",
             "notifica",
-            "Hai ricevuto un messaggio da " + messageContent?.username + " - " + messageContent.text);
-          this.refetchChats.next(crypto.randomUUID());
+            "Hai ricevuto un messaggio da " + messageContent?.userSender + " - " + messageContent.content,
+            10000
+          );
+
         }
+        this.refetchChats.next({randomUUID: crypto.randomUUID(), userEmail: messageContent.email, userId: ""})
       }
     })
   }

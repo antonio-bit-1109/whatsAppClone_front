@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges, OnInit} from '@angular/core';
 import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
@@ -27,7 +27,7 @@ import {HandleWebSocketConnectionService} from '../../services/handle-web-socket
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'
 })
-export class ChatWindowComponent implements OnChanges {
+export class ChatWindowComponent implements OnChanges, OnInit {
 
   @Input() public selectedchat: IChatDto | null = null;
   public populated: boolean = false;
@@ -38,6 +38,29 @@ export class ChatWindowComponent implements OnChanges {
               private chatService: ChatService,
               private authService: AuthService,
               private webSocketService: HandleWebSocketConnectionService) {
+  }
+
+  ngOnInit() {
+    this.webSocketService.$getRefetchChats().subscribe(value => {
+      console.log(value, "value da cui estrarre dati per fare la fetch per get chat ")
+      if (value &&
+        this.selectedchat &&
+        this.selectedchat.chatIdentity
+      ) {
+        console.log(value, "VALUEEEEEEE")
+        this.getChat(this.selectedchat.chatIdentity, value.userEmail, value.userId)
+      }
+    })
+  }
+
+  public getChat(identity: string, userEmail: string, userId: string) {
+    this.chatService.getChatByIdentity(identity, userEmail, userId).subscribe({
+      next: (resp) => {
+        this.selectedchat = resp
+      },
+      error: (err: HttpErrorResponse) => {
+      }
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -71,7 +94,11 @@ export class ChatWindowComponent implements OnChanges {
       next: (resp) => {
         console.log(resp)
         this.cleanMarkdown = crypto.randomUUID()
-        this.webSocketService.refetchChats.next(crypto.randomUUID())
+        this.webSocketService.refetchChats.next({
+          userEmail: "",
+          randomUUID: crypto.randomUUID(),
+          userId: reqData.userOwnerId.toString()
+        })
       },
       error: (err: HttpErrorResponse) => {
         console.error(err.error)

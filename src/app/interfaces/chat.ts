@@ -23,8 +23,9 @@ export interface IChatDto {
 }
 
 export interface IMessageSocket {
-  "userOwnerId": number,
-  "text": string,
-  "chatIdentity": string,
-  username: string
+  content: string,
+  email: string,
+  messageStatus: string,
+  sendAtTime: string,
+  userSender: string
 }
