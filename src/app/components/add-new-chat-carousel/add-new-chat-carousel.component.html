@@ -1,5 +1,5 @@
-<div *ngIf="this.peoples.length > 0" class="card">
-  <p-carousel [value]="this.peoples" [numVisible]="1" [numScroll]="1" orientation="vertical"
+<ng-container *ngIf="this.peoples.length > 0">
+  <p-carousel class="card pt-2" [value]="this.peoples" [numVisible]="1" [numScroll]="1" orientation="vertical"
               verticalViewPortHeight="330px"
               contentClass="flex items-center">
     <ng-template let-person #item>
@@ -7,10 +7,10 @@
         <div class="mb-4">
           <app-image-component width="70" height="70" classes="rounded rounded-5" [src]="person.profilePhoto"/>
         </div>
-        <div class="mb-4 font-medium">{{ person.name }}</div>
-        <div class="mb-4 font-medium">{{ person.username }}</div>
+        <div class="mt-2 font-medium">Nome: {{ person.name }}</div>
+        <div class="mt-2 font-semibold text-xl"> Cognome: {{ person.surname }}</div>
+        <div class="my-2 font-medium">Username: {{ person.username }}</div>
         <div class="flex justify-between items-center">
-          <div class="mt-0 font-semibold text-xl">{{ person.surname }}</div>
           <span>
                         <p-button (click)="this.startNewChat(person)" icon="pi pi-user-plus" label="start new chat"
                                   [outlined]="true"/>
@@ -19,4 +19,4 @@
       </div>
     </ng-template>
   </p-carousel>
-</div>
+</ng-container>

@@ -68,7 +68,11 @@ export class ChatWindowComponent implements OnChanges, OnInit {
     setTimeout(() => {
       const scrollableDiv = document.getElementById("scrollableDiv");
       if (scrollableDiv) {
-        scrollableDiv.scrollTop = scrollableDiv.scrollHeight + 20
+        // Usa scrollTo con behavior: 'smooth' per una transizione fluida
+        scrollableDiv.scrollTo({
+          top: scrollableDiv.scrollHeight,
+          behavior: 'smooth'
+        });
       }
     }, 100)
   }
