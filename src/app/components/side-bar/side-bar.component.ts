@@ -64,9 +64,9 @@ export class SideBarComponent implements OnInit {
     this.visible = false;
   }
 
-  public logout() {
+  public async logout() {
+    await this.webSocketService.disconnectToServerSocket()
     this.authService.logout()
-    this.webSocketService.disconnectToServerSocket()
     this.audioPlayerService.startNewAudio("assets/fart2.mp3")
   }
 

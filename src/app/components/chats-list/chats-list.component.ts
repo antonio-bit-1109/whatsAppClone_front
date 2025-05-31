@@ -39,7 +39,7 @@ export class ChatsListComponent {
 
     this.getChatList(true)
     this.webSocketService.$getRefetchChats().pipe(take(1)).subscribe(value => {
-      value && this.getChatList(true)
+      value && this.getChatList(false)
     })
   }
 
@@ -71,4 +71,5 @@ export class ChatsListComponent {
   public takeEmissionFromCarousel(event: any) {
     event && this.getChatList(true)
   }
+
 }

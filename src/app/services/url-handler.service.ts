@@ -22,14 +22,14 @@ export class UrlHandlerService {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd)
-      ).subscribe((event: NavigationEnd) => {
+      ).subscribe(async (event: NavigationEnd) => {
       this.previousUrl = this.currentUrl;
       this.currentUrl = event.urlAfterRedirects;
 
       // quando nel servizio ottengo la current e previous route
       // all interno della subscription (quindi viene aggiornata ogni volta che cambia la rotta)
       // controllo se le rotte combaciano con le mie necessità e se il controllo è positivo stabilisco la connessione al websocket
-      this.checkTheRoute();
+      await this.checkTheRoute();
       console.log('URL precedente:', this.previousUrl);
       console.log('URL corrente:', this.currentUrl);
 
@@ -47,20 +47,20 @@ export class UrlHandlerService {
   }
 
 
-  public checkTheRoute() {
+  public async checkTheRoute() {
 
     if (this.getCurrentUrl() === "/login" ||
       this.getCurrentUrl() === "/register" ||
       this.getCurrentUrl()?.startsWith("/success")) {
 
-      this.webSocketService.disconnectToServerSocket()
+      await this.webSocketService.disconnectToServerSocket()
 
       console.log("rotta inappropriata. nessuna connessione web socket inizializzata.")
       return;
     }
 
     console.log("rotta appropriata...inizializzo connessione web socket.")
-    this.webSocketService.connectToServerSocket_Promise();
+    await this.webSocketService.connectToServerSocket_Promise();
     return;
 
 

@@ -8,6 +8,7 @@ import {ToastMessageService} from './toast-message.service';
 import {BehaviorSubject} from 'rxjs';
 import {AudioPlayerService} from './audio-player.service';
 import {costanti} from "../costanti/connections"
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class HandleWebSocketConnectionService {
 
   constructor(private authService: AuthService,
               private toastService: ToastMessageService,
-              private audioPlayerService: AudioPlayerService
+              private audioPlayerService: AudioPlayerService,
+              private router: Router
   ) {
   }
 
@@ -91,9 +93,9 @@ export class HandleWebSocketConnectionService {
   }
 
 
-  public disconnectToServerSocket() {
+  public async disconnectToServerSocket() {
     if (this.stompClient && this.stompClient.connected) {
-      this.stompClient.deactivate();
+      await this.stompClient.deactivate();
       this.stompClient = null;
       this.connectionPromise = null;
       console.log("Disconnessione dal socket server completata");
@@ -102,43 +104,51 @@ export class HandleWebSocketConnectionService {
 
 
   public async subscribeToPrivateChat(chatIdentity: string) {
+    try {
 
-    await this.connectToServerSocket_Promise()
 
-    if (!this.stompClient?.connected) {
-      throw new Error("impossibile stabilire connessione alla chat privata. Nessuna connessione STOMP attiva con il server.")
+      if (this.stompClient?.connected) {
+        // Attendi che la connessione si completi
+
+        this.stompClient.subscribe(`/chat-private/${chatIdentity}`, (message: any) => {
+          console.log("collegato alla chat: " + chatIdentity);
+          // Estrai il contenuto del messaggio dal body dal socket
+          // se questo messaggio è presente allora riaggiorno la chat dei messaggi
+          const messageContent: IMessageSocket = JSON.parse(message.body);
+          console.log(messageContent, "MESSAGE CONTENTTTTTT")
+          if (messageContent) {
+            if (messageContent.email !== this.authService.getEmail()) {
+              this.toastService.show("info",
+                "notifica",
+                "Hai ricevuto un messaggio da " + messageContent?.userSender + " - " + messageContent.content,
+                10000
+              );
+              this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
+            }
+            this.refetchChats.next(
+              {
+                randomUUID: crypto.randomUUID(),
+                userEmail: messageContent.email,
+                userId: ""
+              }
+            )
+          }
+        })
+      } else {
+        void this.router.navigateByUrl("/home")
+      }
+    } catch (e) {
+      console.error("Errore durante la sottoscrizione al canale:", e);
+
     }
 
-    this.stompClient.subscribe(`/chat-private/${chatIdentity}`, (message: any) => {
-      console.log("collegato alla chat: " + chatIdentity);
-      // Estrai il contenuto del messaggio dal body dal socket
-      // se questo messaggio è presente allora riaggiorno la chat dei messaggi
-      const messageContent: IMessageSocket = JSON.parse(message.body);
-      console.log(messageContent, "MESSAGE CONTENTTTTTT")
-      if (messageContent) {
-        if (messageContent.email !== this.authService.getEmail()) {
-          this.toastService.show("info",
-            "notifica",
-            "Hai ricevuto un messaggio da " + messageContent?.userSender + " - " + messageContent.content,
-            10000
-          );
-          this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
-        }
-        this.refetchChats.next(
-          {
-            randomUUID: crypto.randomUUID(),
-            userEmail: messageContent.email,
-            userId: ""
-          }
-        )
-      }
-    })
+
   }
 
   public isAlreadyConnected(): boolean {
     return this.stompClient !== null &&
       this.stompClient.connected
   }
-  
+
 
 }
