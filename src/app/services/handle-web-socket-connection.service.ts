@@ -1,20 +1,21 @@
 import {Injectable} from '@angular/core';
 // @ts-ignore
 import SockJS from 'sockjs-client';
-import {Stomp} from '@stomp/stompjs';
+import * as StompJs from '@stomp/stompjs';
 import {AuthService} from './auth.service';
 import {IMessageSocket} from '../interfaces/chat';
 import {ToastMessageService} from './toast-message.service';
 import {BehaviorSubject} from 'rxjs';
 import {AudioPlayerService} from './audio-player.service';
-
+import {costanti} from "../costanti/connections"
 
 @Injectable({
   providedIn: 'root'
 })
 export class HandleWebSocketConnectionService {
 
-  private stompClient: any;
+  private stompClient: StompJs.Client | null = null;
+  private connectionPromise: Promise<boolean> | null = null;
   public refetchChats = new BehaviorSubject<{ userEmail: string, randomUUID: string, userId: string } | null>(null);
 
   constructor(private authService: AuthService,
@@ -28,38 +29,86 @@ export class HandleWebSocketConnectionService {
     return this.refetchChats.asObservable();
   }
 
-  // connect to webSocket all avvio dellapplicazione ??
-  public connectToServerSocket(serverPort: string) {
-    console.log("try to connecting web socket ...")
+  public connectToServerSocket_Promise(): Promise<boolean> {
 
     if (this.isAlreadyConnected()) {
       console.log("socket already connected... no action needed")
-      return;
+      return Promise.resolve(true);
     }
 
-    const token = this.authService.getToken();
 
-    // passando il token al server faccio un ulteriore controllo che l'utente che si sta collegando sia un utente autenticato gia in precedenza
-    const socket = new SockJS(`http://localhost:${serverPort}/ws?token=${token}`);
-    this.stompClient = Stomp.over(socket);
+    // promise per stabile una connessione stomp tra client e server
+    this.connectionPromise = new Promise((resolve, reject) => {
 
-    this.stompClient.connect({}, () => {
-      console.log("WebSocket connected!");
+      //controllo che sia presente il token e che venga inviato nella richiesta
+      // per poter autenticare il client dentro al server
+      const token = this.authService.getToken();
 
-    }, (error: any) => {
-      console.error("WebSocket connection error:", error);
-    });
+      if (!token) {
+        console.error("impossibile reperire token da utilizzare nella promise.")
+        reject("impossibile reperire token.")
+      }
 
+      // inizializzo i parametri della connessione
+      // a chi connettersi, ogni quanto tempo pingare tra client <--> server per confermare che la connessione funziona
+      this.stompClient = new StompJs.Client({
+        webSocketFactory: () => new SockJS(`${costanti.prefix}://${costanti.host}:${costanti.serverPort}/ws?token=${token}`),
+        debug: (msg) => console.debug(msg),
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000
+      })
+
+
+      // avvio il metodo this.stompClient.activate();
+      // e a seconda dell esito
+      // 1.success
+      // 2. errore Stomp
+      // 3. errore WebSocket
+      // sono presenti tre eventi in grado di catturare quell errore e farci qualcosa
+      this.stompClient.onConnect = () => {
+        console.log("WebSocket connesso correttamente!");
+        resolve(true);
+      };
+
+      this.stompClient.onStompError = (frame: any) => {
+        console.error("Errore STOMP:", frame);
+        this.stompClient = null;
+        reject(new Error('Errore nella connessione STOMP'));
+      };
+
+      this.stompClient.onWebSocketError = (event: any) => {
+        console.error("Errore WebSocket:", event);
+        this.stompClient = null;
+        reject(new Error('Errore nella connessione WebSocket'));
+      };
+
+      this.stompClient.activate();
+    })
+
+
+    return this.connectionPromise;
   }
+
 
   public disconnectToServerSocket() {
-    this.stompClient.disconnect(() => {
-      console.log("disconnessione dal socket server....")
-    })
+    if (this.stompClient && this.stompClient.connected) {
+      this.stompClient.deactivate();
+      this.stompClient = null;
+      this.connectionPromise = null;
+      console.log("Disconnessione dal socket server completata");
+    }
   }
 
 
-  public subscribeToPrivateChat(chatIdentity: string) {
+  public async subscribeToPrivateChat(chatIdentity: string) {
+
+    await this.connectToServerSocket_Promise()
+
+    if (!this.stompClient?.connected) {
+      throw new Error("impossibile stabilire connessione alla chat privata. Nessuna connessione STOMP attiva con il server.")
+    }
+
     this.stompClient.subscribe(`/chat-private/${chatIdentity}`, (message: any) => {
       console.log("collegato alla chat: " + chatIdentity);
       // Estrai il contenuto del messaggio dal body dal socket
@@ -75,13 +124,21 @@ export class HandleWebSocketConnectionService {
           );
           this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
         }
-        this.refetchChats.next({randomUUID: crypto.randomUUID(), userEmail: messageContent.email, userId: ""})
+        this.refetchChats.next(
+          {
+            randomUUID: crypto.randomUUID(),
+            userEmail: messageContent.email,
+            userId: ""
+          }
+        )
       }
     })
   }
 
   public isAlreadyConnected(): boolean {
-    return this.stompClient && this.stompClient.connected
+    return this.stompClient !== null &&
+      this.stompClient.connected
   }
+  
 
 }

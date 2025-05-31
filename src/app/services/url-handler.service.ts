@@ -53,12 +53,14 @@ export class UrlHandlerService {
       this.getCurrentUrl() === "/register" ||
       this.getCurrentUrl()?.startsWith("/success")) {
 
+      this.webSocketService.disconnectToServerSocket()
+
       console.log("rotta inappropriata. nessuna connessione web socket inizializzata.")
       return;
     }
 
     console.log("rotta appropriata...inizializzo connessione web socket.")
-    this.webSocketService.connectToServerSocket("8080");
+    this.webSocketService.connectToServerSocket_Promise();
     return;
 
 
