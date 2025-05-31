@@ -9,6 +9,7 @@ import {BehaviorSubject} from 'rxjs';
 import {AudioPlayerService} from './audio-player.service';
 import {costanti} from "../costanti/connections"
 import {Router} from '@angular/router';
+import {StompSubscription} from '@stomp/stompjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class HandleWebSocketConnectionService {
   private stompClient: StompJs.Client | null = null;
   private connectionPromise: Promise<boolean> | null = null;
   public refetchChats = new BehaviorSubject<{ userEmail: string, randomUUID: string, userId: string } | null>(null);
+  private activeSubscriptions = new Map<string, StompSubscription>();
 
   constructor(private authService: AuthService,
               private toastService: ToastMessageService,
@@ -30,6 +32,7 @@ export class HandleWebSocketConnectionService {
   public $getRefetchChats() {
     return this.refetchChats.asObservable();
   }
+
 
   public connectToServerSocket_Promise(): Promise<boolean> {
 
@@ -105,7 +108,6 @@ export class HandleWebSocketConnectionService {
 
   public async subscribeToPrivateChat(chatIdentity: string) {
     try {
-
 
       if (this.stompClient?.connected) {
         // Attendi che la connessione si completi

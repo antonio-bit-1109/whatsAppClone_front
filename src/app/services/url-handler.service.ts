@@ -2,6 +2,10 @@ import {Injectable} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {HandleWebSocketConnectionService} from './handle-web-socket-connection.service';
+import {ChatService} from './chat.service';
+import {AuthService} from './auth.service';
+import {take} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +16,8 @@ export class UrlHandlerService {
   private currentUrl: string | null = null;
 
   constructor(private router: Router,
-              private webSocketService: HandleWebSocketConnectionService) {
+              private webSocketService: HandleWebSocketConnectionService,
+              private chatService: ChatService, private authService: AuthService) {
 
     // faccio una subscribe all oggetto router.events per tenere traccia delle rotte
     // e salvo quella corrente e quella precedente in due variabili accessibili dal servizio
@@ -61,6 +66,16 @@ export class UrlHandlerService {
 
     console.log("rotta appropriata...inizializzo connessione web socket.")
     await this.webSocketService.connectToServerSocket_Promise();
+    this.chatService.getAllUserChat(this.authService.getUserId()).pipe(
+      take(1)
+    ).subscribe({
+      next: (resp) => {
+        resp && resp.length > 0 &&
+        resp.map(chat => this.webSocketService.subscribeToPrivateChat(chat.chatIdentity))
+      },
+      error: (err: HttpErrorResponse) => {
+      }
+    })
     return;
 
 

@@ -37,9 +37,9 @@ export class ChatsListComponent {
               private toastService: ToastMessageService,
               private webSocketService: HandleWebSocketConnectionService) {
 
-    this.getChatList(true)
+    this.getChatList(false)
     this.webSocketService.$getRefetchChats().pipe(take(1)).subscribe(value => {
-      value && this.getChatList(false)
+      value && this.getChatList(true)
     })
   }
 

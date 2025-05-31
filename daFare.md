@@ -10,4 +10,6 @@
 per avere un unico tasto in absolute
 che ti fa tornare indietro
 
--[] guardia da mettere quando accedo alla home 
+-[] guardia da mettere quando accedo alla home
+-[] gestisci le sottoscrizioni al channel nel servizio HandleWebSocketConnectionService,
+consenti una sola subscription per canale passato, usa una mappa 
