@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
@@ -12,6 +12,7 @@ import {IMessageAddChat} from '../../interfaces/Message';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../services/auth.service';
 import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
+import {CompScrollDownComponent} from '../comp-scroll-down/comp-scroll-down.component';
 
 @Component({
   selector: 'app-chat-window',
@@ -22,7 +23,8 @@ import {HandleWebSocketConnectionService} from '../../services/handle-web-socket
     Button,
     NgIf,
     NgForOf,
-    ComicComponent
+    ComicComponent,
+    CompScrollDownComponent
   ],
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'
@@ -33,6 +35,7 @@ export class ChatWindowComponent implements OnChanges, OnInit {
   public populated: boolean = false;
   public markdownContent: string | undefined;
   public cleanMarkdown: string | null = null;
+  public isNewMessagesArrived: boolean = false;
 
   constructor(protected utilityMethod: UtilityMethodService,
               private chatService: ChatService,
@@ -56,12 +59,23 @@ export class ChatWindowComponent implements OnChanges, OnInit {
   public getChat(identity: string, userEmail: string, userId: string) {
     this.chatService.getChatByIdentity(identity, userEmail, userId).subscribe({
       next: (resp) => {
-        this.selectedchat = resp
-        this.scrollToBottom()
+        const sortedMessages = this.orderMessagesByDate(resp)
+        this.selectedchat = {
+          messaggi: sortedMessages,
+          listaPartecipanti: resp.listaPartecipanti,
+          createdAt: resp.createdAt,
+          chatIdentity: resp.chatIdentity
+        }
+        this.isNewMessagesArrived = true;
       },
       error: (err: HttpErrorResponse) => {
       }
     })
+  }
+
+  private orderMessagesByDate(resp: IChatDto) {
+    return resp.messaggi.sort((a, b) =>
+      Date.parse(a.sendAtTime) - Date.parse(b.sendAtTime))
   }
 
   public scrollToBottom() {
@@ -75,6 +89,7 @@ export class ChatWindowComponent implements OnChanges, OnInit {
         });
       }
     }, 100)
+    this.isNewMessagesArrived = false;
   }
 
   ngOnChanges(changes: SimpleChanges) {
