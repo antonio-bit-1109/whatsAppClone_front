@@ -29,3 +29,9 @@ export interface IMessageSocket {
   sendAtTime: string,
   userSender: string
 }
+
+
+export interface IDataToast {
+  url: string,
+  chatIdentity: string
+}

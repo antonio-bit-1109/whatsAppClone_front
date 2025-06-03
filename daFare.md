@@ -12,4 +12,7 @@ che ti fa tornare indietro
 
 -[] guardia da mettere quando accedo alla home
 -[] gestisci le sottoscrizioni al channel nel servizio HandleWebSocketConnectionService,
-consenti una sola subscription per canale passato, usa una mappa 
+consenti una sola subscription per canale passato, usa una mappa
+
+-[] quando clicco sul bottone nel toast che fa il redirect al componente della chat
+devo anche fare una chiamata ad un altro endpoint che mi fetcha di nuovo la chat aggiornata e me la mostra nel componente stabilito

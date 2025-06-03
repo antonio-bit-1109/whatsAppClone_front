@@ -3,11 +3,16 @@ import {Router, RouterOutlet} from '@angular/router';
 import {Toast} from 'primeng/toast';
 import {AudioPlayerService} from './services/audio-player.service';
 import {UrlHandlerService} from './services/url-handler.service';
+import {Button} from 'primeng/button';
+import {PrimeTemplate} from 'primeng/api';
+import {ChatService} from './services/chat.service';
+import {IDataToast} from './interfaces/chat';
+import {ToastMessageService} from './services/toast-message.service';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toast],
+  imports: [RouterOutlet, Toast, Button, PrimeTemplate],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -20,7 +25,10 @@ export class AppComponent implements AfterViewInit {
               // sola iniezione del servizio url handler per avviare il tracciamento
               // dell url corrente e dell url precedente
               // LASCIALO LI DOV'È !!
-              private urlHandler: UrlHandlerService
+              private urlHandler: UrlHandlerService,
+              private router: Router,
+              private chatService: ChatService,
+              private toastService: ToastMessageService
   ) {
   }
 
@@ -33,6 +41,10 @@ export class AppComponent implements AfterViewInit {
     }
 
   }
+          
 
-
+  public redirectAndShowChat(url: string) {
+    void this.router.navigateByUrl(url);
+    this.toastService.dismissToast("interactiveToast")
+  }
 }

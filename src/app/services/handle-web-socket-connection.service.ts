@@ -98,6 +98,8 @@ export class HandleWebSocketConnectionService {
 
   public async disconnectToServerSocket() {
     if (this.stompClient && this.stompClient.connected) {
+      // fai unsubscribe da tutti i channel acui sei iscritto
+      this.activeSubscriptions.forEach(sub => sub.unsubscribe())
       await this.stompClient.deactivate();
       this.stompClient = null;
       this.connectionPromise = null;
@@ -112,7 +114,13 @@ export class HandleWebSocketConnectionService {
       if (this.stompClient?.connected) {
         // Attendi che la connessione si completi
 
-        this.stompClient.subscribe(`/chat-private/${chatIdentity}`, (message: any) => {
+        if (this.activeSubscriptions.has(chatIdentity)) {
+          console.debug("sottoscrizione gia presente per la chat --> " + chatIdentity)
+          console.debug("sottoscrizione non necessaria.")
+          return;
+        }
+
+        const subscription = this.stompClient.subscribe(`/chat-private/${chatIdentity}`, (message: any) => {
           console.log("collegato alla chat: " + chatIdentity);
           // Estrai il contenuto del messaggio dal body dal socket
           // se questo messaggio è presente allora riaggiorno la chat dei messaggi
@@ -123,7 +131,12 @@ export class HandleWebSocketConnectionService {
               this.toastService.show("info",
                 "notifica",
                 "Hai ricevuto un messaggio da " + messageContent?.userSender + " - " + messageContent.content,
-                10000
+                10000,
+                "interactiveToast",
+                {
+                  url: "/home/chats-main",
+                  chatIdentity: chatIdentity
+                }
               );
               this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
             }
@@ -136,6 +149,10 @@ export class HandleWebSocketConnectionService {
             )
           }
         })
+
+        // aggiungo la subscription alla mappa
+        this.activeSubscriptions.set(`${chatIdentity}`, subscription);
+
       } else {
         void this.router.navigateByUrl("/home")
       }

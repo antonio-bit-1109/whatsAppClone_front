@@ -54,14 +54,16 @@
       </div>
     </div>
     <!--    contenitore messaggi-->
-    <div id="scrollableDiv" class="w-100 h-mycustom overflow-y-scroll position-relative">
+    <div id="scrollableDiv" (scroll)="this.checkIfAlreadyScrolledToBottom($event)"
+         class="w-100 h-mycustom overflow-y-scroll position-relative">
       <div class="d-flex flex-column w-100 " *ngFor="let messObj of this.selectedchat?.messaggi">
         <app-comic [messaggio]="messObj"/>
       </div>
 
     </div>
     <ng-container *ngIf="this.isNewMessagesArrived">
-      <div (click)="this.scrollToBottom()" class="custom-position">
+      <div (click)="this.scrollToBottom()"
+           class="custom-position">
         <app-comp-scroll-down/>
       </div>
     </ng-container>

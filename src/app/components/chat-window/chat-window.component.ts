@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, OnDestroy} from '@angular/core';
 import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
@@ -29,7 +29,7 @@ import {CompScrollDownComponent} from '../comp-scroll-down/comp-scroll-down.comp
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'
 })
-export class ChatWindowComponent implements OnChanges, OnInit {
+export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() public selectedchat: IChatDto | null = null;
   public populated: boolean = false;
@@ -41,6 +41,11 @@ export class ChatWindowComponent implements OnChanges, OnInit {
               private chatService: ChatService,
               private authService: AuthService,
               private webSocketService: HandleWebSocketConnectionService) {
+
+    // document.addEventListener("scroll", () => {
+    //   this.checkIfAlreadyScrolledToBottom()
+    //   console.log("listener aggiunto")
+    // })
   }
 
   ngOnInit() {
@@ -54,6 +59,12 @@ export class ChatWindowComponent implements OnChanges, OnInit {
         this.getChat(this.selectedchat.chatIdentity, value.userEmail, value.userId)
       }
     })
+  }
+
+  ngOnDestroy() {
+    // document.removeEventListener("scroll", () => {
+    //   console.log("listener rimosso")
+    // })
   }
 
   public getChat(identity: string, userEmail: string, userId: string) {
@@ -90,6 +101,17 @@ export class ChatWindowComponent implements OnChanges, OnInit {
       }
     }, 100)
     this.isNewMessagesArrived = false;
+  }
+
+  public checkIfAlreadyScrolledToBottom(event: Event) {
+
+    const scrollableDiv = event.target as HTMLElement
+    const isAtBottom = Math.abs(scrollableDiv.scrollHeight - scrollableDiv.scrollTop - scrollableDiv.clientHeight) < 10;
+
+    if (isAtBottom) {
+      this.isNewMessagesArrived = false
+    }
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
