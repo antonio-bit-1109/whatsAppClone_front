@@ -3,7 +3,6 @@
 table, th, td {
   border: 1px solid white;
   border-collapse: collapse;
-  border-style: inset;
 }
 
 th, td {
@@ -16,4 +15,8 @@ th {
 
 .highLight {
   font-size: 1.5em;
+}
+
+span {
+  padding: 5px;
 }

@@ -21,9 +21,9 @@
               <ng-container *ngFor="let obj of this.allMEssagesSent">
                 <tr>
 
-                  <td>{{ obj.emailSender }}</td>
-                  <td>{{ obj.contentMsg }}</td>
-                  <td><span class="highLight fw-bold">{{ obj.haveReplied }}</span></td>
+                  <td><span class="highLight fw-bold">{{ obj.emailSender }}</span></td>
+                  <td><span class="highLight fw-bold">{{ obj.contentMsg }}</span></td>
+                  <td><span class="highLight fw-bold">{{ this.handleBoolean(obj.haveReplied) }}</span></td>
 
                 </tr>
 

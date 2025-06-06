@@ -38,4 +38,8 @@ export class HandleEmailsComponent implements OnInit {
       }
     })
   }
+
+  public handleBoolean(val: boolean) {
+    return val ? "Si" : "No";
+  }
 }
