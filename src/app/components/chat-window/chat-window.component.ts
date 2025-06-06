@@ -14,7 +14,7 @@ import {AuthService} from '../../services/auth.service';
 import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
 import {CompScrollDownComponent} from '../comp-scroll-down/comp-scroll-down.component';
 import {SubjectService} from '../../services/subject.service';
-import {ChangeDetection} from '@angular/cli/lib/config/workspace-schema';
+import {handleEvent} from '../../functions/functions';
 
 @Component({
   selector: 'app-chat-window',
@@ -38,6 +38,8 @@ export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
   public markdownContent: string | undefined;
   public cleanMarkdown: string | null = null;
   public isNewMessagesArrived: boolean = false;
+  private func: any; // campo che conterrà la funzione anonima che richiama la funzione nel file functions.ts che aggiunge l event listener al documento e che
+  // al destroy del componente rimuove l'event listener
 
   constructor(protected utilityMethod: UtilityMethodService,
               private chatService: ChatService,
@@ -48,7 +50,16 @@ export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
 
   }
 
+
   ngOnInit() {
+
+    this.func = (e: KeyboardEvent) => handleEvent(e, () => this.sendMessage())
+
+    // event listener per inviare il messaggio anche all Enter e non solo al click del bottone
+    // da rimuovere all on destroy del componente
+    document.addEventListener("keydown", this.func)
+
+
     this.webSocketService.$getRefetchChats().subscribe(value => {
       console.log(value, "value da cui estrarre dati per fare la fetch per get chat ")
       if (value &&
@@ -74,8 +85,11 @@ export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
+    console.log("componente chat windows smontato")
+    document.removeEventListener("keydown", this.func)
   }
+
 
   public sortMessagesChatANdNotify(val: IChatDto) {
     const sortedMessages = this.orderMessagesByDate(val)
