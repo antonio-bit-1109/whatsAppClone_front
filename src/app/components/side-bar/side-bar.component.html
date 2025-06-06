@@ -14,6 +14,14 @@
             [outlined]="true"
             class="mt-2">☰
   </p-button>
+  <ng-container *ngIf="this.authService.getRole() && this.authService.getRole() === 'ADMIN'">
+    <p-button (click)="this.navigateToComponent('/home/handle-emails')" size="small" [rounded]="true" severity="success"
+              [outlined]="true"
+              class="mt-2">
+      <i class="pi pi-envelope" style="font-size: 1rem"></i>
+    </p-button>
+  </ng-container>
+
   <p-button (click)="this.logout()" size="small"
             [rounded]="true"
             [outlined]="true"

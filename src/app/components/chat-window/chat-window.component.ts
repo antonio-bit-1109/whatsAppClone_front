@@ -107,6 +107,7 @@ export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
     this.chatService.getChatByIdentity(identity, userEmail, userId).subscribe({
       next: (resp) => {
         this.sortMessagesChatANdNotify(resp);
+        this.scrollToBottom()
       },
       error: (err: HttpErrorResponse) => {
       }

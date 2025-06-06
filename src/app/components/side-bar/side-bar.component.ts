@@ -10,6 +10,7 @@ import {AudioPlayerService} from '../../services/audio-player.service';
 import {ImageComponentComponent} from '../image-component/image-component.component';
 import {UrlHandlerService} from '../../services/url-handler.service';
 import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-side-bar',
@@ -18,7 +19,8 @@ import {HandleWebSocketConnectionService} from '../../services/handle-web-socket
     Drawer,
     LogoAppComponent,
     Menu,
-    ImageComponentComponent
+    ImageComponentComponent,
+    NgIf
   ],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss'
