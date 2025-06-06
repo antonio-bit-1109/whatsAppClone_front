@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, OnDestroy} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {ChatEditorComponent} from '../chat-editor/chat-editor.component';
 import {IChatDto} from '../../interfaces/chat';
 import {Panel} from 'primeng/panel';
@@ -13,6 +13,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../services/auth.service';
 import {HandleWebSocketConnectionService} from '../../services/handle-web-socket-connection.service';
 import {CompScrollDownComponent} from '../comp-scroll-down/comp-scroll-down.component';
+import {SubjectService} from '../../services/subject.service';
+import {ChangeDetection} from '@angular/cli/lib/config/workspace-schema';
 
 @Component({
   selector: 'app-chat-window',
@@ -40,12 +42,10 @@ export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
   constructor(protected utilityMethod: UtilityMethodService,
               private chatService: ChatService,
               private authService: AuthService,
-              private webSocketService: HandleWebSocketConnectionService) {
+              private webSocketService: HandleWebSocketConnectionService,
+              private subjectService: SubjectService,
+              private cdr: ChangeDetectorRef) {
 
-    // document.addEventListener("scroll", () => {
-    //   this.checkIfAlreadyScrolledToBottom()
-    //   console.log("listener aggiunto")
-    // })
   }
 
   ngOnInit() {
@@ -59,25 +59,40 @@ export class ChatWindowComponent implements OnChanges, OnInit, OnDestroy {
         this.getChat(this.selectedchat.chatIdentity, value.userEmail, value.userId)
       }
     })
+
+
+    // qui è presente un metodo onchanges che monitora this.selectedchat , ma se la variabile viene modificta da un behaviour subject l on changes non scatta,
+    // on changes scatta solo se la variabile di classe viene modificata ed a passare il valore sia il padre!
+    // perciò quando ricevo il dato dal subject richiamo populated true in modo da mostrare il contenuto di this.selectedchat nel componente e scrollo fino alla fine per vedere il nuovo messaggio.
+    this.subjectService.$getRefetchedChat().subscribe(val => {
+      if (val) {
+        this.sortMessagesChatANdNotify(val)
+        this.populated = true;
+        this.scrollToBottom()
+      }
+    })
+
   }
 
   ngOnDestroy() {
-    // document.removeEventListener("scroll", () => {
-    //   console.log("listener rimosso")
-    // })
+  }
+
+  public sortMessagesChatANdNotify(val: IChatDto) {
+    const sortedMessages = this.orderMessagesByDate(val)
+    this.selectedchat = {
+      messaggi: sortedMessages,
+      listaPartecipanti: val.listaPartecipanti,
+      createdAt: val.createdAt,
+      chatIdentity: val.chatIdentity
+    }
+    this.isNewMessagesArrived = true;
+    this.cdr.detectChanges(); // Forza l'aggiornamento dell'UI
   }
 
   public getChat(identity: string, userEmail: string, userId: string) {
     this.chatService.getChatByIdentity(identity, userEmail, userId).subscribe({
       next: (resp) => {
-        const sortedMessages = this.orderMessagesByDate(resp)
-        this.selectedchat = {
-          messaggi: sortedMessages,
-          listaPartecipanti: resp.listaPartecipanti,
-          createdAt: resp.createdAt,
-          chatIdentity: resp.chatIdentity
-        }
-        this.isNewMessagesArrived = true;
+        this.sortMessagesChatANdNotify(resp);
       },
       error: (err: HttpErrorResponse) => {
       }

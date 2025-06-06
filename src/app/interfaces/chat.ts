@@ -34,7 +34,8 @@ export interface IMessageSocket {
 export interface IDataToast {
   data: {
     url: string,
-    chatIdentity: string
+    chatIdentity: string,
+    email: string
   }
 
 }

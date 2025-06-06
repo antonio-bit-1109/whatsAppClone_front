@@ -10,7 +10,8 @@ export class ToastMessageService {
 
   public show(severity: string, summary: string, detail: string, life?: number, keyToast?: string, dataObj?: {
     url: string,
-    chatIdentity: string
+    chatIdentity: string,
+    email: string
   }) {
     this.messageService.add({
       severity: severity,

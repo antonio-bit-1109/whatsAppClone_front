@@ -135,7 +135,8 @@ export class HandleWebSocketConnectionService {
                 "interactiveToast",
                 {
                   url: "/home/chats-main",
-                  chatIdentity: chatIdentity
+                  chatIdentity: chatIdentity,
+                  email: this.authService.getEmail() as string
                 }
               );
               this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
