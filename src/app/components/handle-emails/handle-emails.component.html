@@ -1,0 +1,41 @@
+<div class="mt-3">
+
+
+  <div class="container-fluid">
+
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <ng-container *ngIf="this.allMEssagesSent.length > 0">
+          <p-panel header="messaggi">
+            <table class="w-100">
+              <thead>
+              <tr>
+                <th>Email</th>
+                <th>Messaggio</th>
+                <th>Risposto</th>
+              </tr>
+              </thead>
+
+              <tbody>
+
+              <ng-container *ngFor="let obj of this.allMEssagesSent">
+                <tr>
+
+                  <td>{{ obj.emailSender }}</td>
+                  <td>{{ obj.contentMsg }}</td>
+                  <td><span class="highLight fw-bold">{{ obj.haveReplied }}</span></td>
+
+                </tr>
+
+              </ng-container>
+
+              </tbody>
+            </table>
+          </p-panel>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+
+</div>

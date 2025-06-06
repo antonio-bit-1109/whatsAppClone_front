@@ -1,0 +1,19 @@
+@import "../../../color";
+
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+  border-style: inset;
+}
+
+th, td {
+  background-color: darkgrey;
+}
+
+th {
+  padding: 5px;
+}
+
+.highLight {
+  font-size: 1.5em;
+}
