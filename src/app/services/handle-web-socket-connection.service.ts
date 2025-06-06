@@ -140,13 +140,8 @@ export class HandleWebSocketConnectionService {
               );
               this.audioPlayerService.startNewAudio("/assets/fart4.mp3")
             }
-            this.refetchChats.next(
-              {
-                randomUUID: crypto.randomUUID(),
-                userEmail: messageContent.email,
-                userId: ""
-              }
-            )
+
+            this.undestandingWhoIsFetching(messageContent)
           }
         })
 
@@ -162,6 +157,33 @@ export class HandleWebSocketConnectionService {
     }
 
 
+  }
+
+
+  // in questo metodo voglio capire chi sta effettuando la fetch per ricaricare la chat.
+  // nella logica di base, in una chat tra due persone , l utente che effettua la richiesta al sever con la propria email o il proprio id riceve in risposta un oggetto contenente
+  // l'altra persona che sta partecipando alla chat, INSIEME  a tutti i messaggi presenti nella chat stessa,
+// QUINDI MARCELLO INVIA IL MESSAGGIO --> MARCELLO RICEVE TRAMITE WEB SOCKET CHE LA CHAT è STATA AGGIORNATA CON UN MESSAGGIO , EFFETTUA FETCH SUL SERVER PASSANDO I DATI (ID O EMAIL) DI SE STESSO
+  // COSI CHE OGGETTO DI RITORNO ABBIA I DATI DELL ALTRO UTENTE CHE PARTECIPA ALLA CHAT E SIA MOSTRATO NELL UI
+  public undestandingWhoIsFetching(messageContent: IMessageSocket) {
+    if (messageContent.email !== this.authService.getEmail()) {
+      this.refetchChats.next(
+        {
+          randomUUID: crypto.randomUUID(),
+          userEmail: this.authService.getEmail() as string,
+          userId: ""
+        }
+      )
+
+    } else {
+      this.refetchChats.next(
+        {
+          randomUUID: crypto.randomUUID(),
+          userEmail: messageContent.email,
+          userId: ""
+        }
+      )
+    }
   }
 
   public isAlreadyConnected(): boolean {
