@@ -41,10 +41,10 @@ export class AppComponent implements AfterViewInit {
     }
 
   }
-          
 
-  public redirectAndShowChat(url: string) {
-    void this.router.navigateByUrl(url);
+
+  public redirectAndShowChat(message: IDataToast) {
+    void this.router.navigateByUrl(message.data.url);
     this.toastService.dismissToast("interactiveToast")
   }
 }

@@ -4,3 +4,8 @@ export interface IMessageAddChat {
   "chatIdentity": string
 
 }
+
+
+// export interface IDataToastMsg {
+//   data: { url: string }
+// }

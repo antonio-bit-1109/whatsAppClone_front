@@ -30,8 +30,11 @@ export interface IMessageSocket {
   userSender: string
 }
 
-
+//
 export interface IDataToast {
-  url: string,
-  chatIdentity: string
+  data: {
+    url: string,
+    chatIdentity: string
+  }
+
 }
