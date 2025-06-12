@@ -5,7 +5,9 @@ export interface ISendMeMessage {
 
 
 export interface IMessageSent {
+  id: number,
   "emailSender": string,
   "haveReplied": boolean,
-  "contentMsg": string
+  "contentMsg": string,
+  receivedAt: Date
 }

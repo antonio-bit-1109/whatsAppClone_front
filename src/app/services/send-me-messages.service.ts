@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {IMessageSent, ISendMeMessage} from '../interfaces/SendMeMessage';
 import {Observable} from 'rxjs';
 import {ISuccessResponse} from '../interfaces/SuccessResponse';
-import {IMessage} from '@stomp/stompjs';
+import {ReplayMessageDTO} from '../interfaces/Message';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,9 @@ export class SendMeMessagesService {
 
   public getAllEmailsSentToMe(): Observable<IMessageSent[]> {
     return this.http.get<IMessageSent[]>(`${this.url}/get/all`)
+  }
+
+  public replayToMessage(data: ReplayMessageDTO): Observable<ISuccessResponse> {
+    return this.http.post<ISuccessResponse>(`${this.url}/replay`, data)
   }
 }

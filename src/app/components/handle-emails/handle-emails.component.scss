@@ -20,3 +20,11 @@ th {
 span {
   padding: 5px;
 }
+
+.point{
+  cursor: pointer;
+}
+
+.point:hover{
+  color: red;
+}
