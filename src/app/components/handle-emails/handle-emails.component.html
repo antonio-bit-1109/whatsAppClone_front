@@ -1,41 +1,40 @@
 <div class="mt-3">
 
 
-  <div class="container-fluid">
+  <div class="container-fluid offset-2 offset-md-0">
 
     <div class="row justify-content-center">
       <div class="col-12">
         <ng-container *ngIf="this.allMEssagesSent.length > 0">
-          <p-panel header="messaggi">
-            <table class="w-100">
-              <thead>
+
+          <table class="w-100">
+            <thead>
+            <tr>
+              <th>Email</th>
+              <th>Messaggio</th>
+              <th>Risposto</th>
+              <th>Ricevuto il</th>
+              <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <ng-container *ngFor="let obj of this.allMEssagesSent">
               <tr>
-                <th>Email</th>
-                <th>Messaggio</th>
-                <th>Risposto</th>
-                <th>Ricevuto il</th>
-                <th></th>
+
+                <td><span class="highLight fw-bold">{{ obj.emailSender }}</span></td>
+                <td><span class="highLight fw-bold">{{ obj.contentMsg }}</span></td>
+                <td><span class="highLight fw-bold">{{ this.handleBoolean(obj.haveReplied) }}</span></td>
+                <td><span class="highLight fw-bold">{{ obj.receivedAt | date:'short' }}</span></td>
+                <td (click)="this.setSelected(obj)" class="point">Rispondi</td>
+
               </tr>
-              </thead>
 
-              <tbody>
+            </ng-container>
 
-              <ng-container *ngFor="let obj of this.allMEssagesSent">
-                <tr>
-
-                  <td><span class="highLight fw-bold">{{ obj.emailSender }}</span></td>
-                  <td><span class="highLight fw-bold">{{ obj.contentMsg }}</span></td>
-                  <td><span class="highLight fw-bold">{{ this.handleBoolean(obj.haveReplied) }}</span></td>
-                  <td><span class="highLight fw-bold">{{ obj.receivedAt | date:'short' }}</span></td>
-                  <td (click)="this.setSelected(obj)" class="point">Rispondi</td>
-
-                </tr>
-
-              </ng-container>
-
-              </tbody>
-            </table>
-          </p-panel>
+            </tbody>
+          </table>
 
 
         </ng-container>
@@ -47,31 +46,43 @@
     <div class="mt-4">
       <div class="row justify-content-center">
 
+        <h4 class="text-center fw-bold fs-3">Seleziona il messaggio a cui rispondere</h4>
+
         <div class="col-12">
 
           <!--          <ng-container *ngIf="this.selected">-->
-          <div class="d-flex justify-content-center">
-            <p-floatlabel class="my-1">
-              <input readonly pInputText id="on_label" autocomplete="off" [(ngModel)]="this.emailSelected"/>
+          <div class="d-flex justify-content-center ">
+            <p-floatlabel class="w-100 my-1 d-flex justify-content-center align-items-center">
+              <input class="w-75" readonly pInputText id="on_label" autocomplete="off"
+                     [(ngModel)]="this.emailSelected"/>
               <label for="over_label">Email</label>
             </p-floatlabel>
+          </div>
+        </div>
 
-            <p-floatlabel>
-              <textarea readonly rows="5" cols="30" pTextarea [(ngModel)]="this.contentSelected"></textarea>
+        <div class="col-12">
+
+          <!--          <ng-container *ngIf="this.selected">-->
+          <div class="d-flex justify-content-center w-100">
+            <p-floatlabel class="w-100">
+              <textarea class="w-100" readonly rows="5" cols="30" pTextarea
+                        [(ngModel)]="this.contentSelected"></textarea>
               <label for="on_label">Message</label>
             </p-floatlabel>
-
           </div>
-
         </div>
+
+
       </div>
     </div>
 
     <!--    div contenente l area in cui admin risponde -->
-    <div class="mt-2">
+    <div class="mt-5">
       <div class="row justify-content-center">
 
-        <div class="col-12">
+        <h4 class="text-center fw-bold fs-3">Scrivi risposta</h4>
+
+        <div class="col-md-6 col-lg-8">
 
           <ng-container *ngIf="this.allMEssagesSent.length > 0">
             <form class="d-flex flex-column justify-content-center" [formGroup]="sendRespEmail"

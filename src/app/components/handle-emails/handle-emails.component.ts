@@ -3,7 +3,6 @@ import {SendMeMessagesService} from '../../services/send-me-messages.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {IMessageSent} from '../../interfaces/SendMeMessage';
 import {ToastMessageService} from '../../services/toast-message.service';
-import {Panel} from 'primeng/panel';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 import {Button} from 'primeng/button';
 import {FloatLabel} from 'primeng/floatlabel';
@@ -11,11 +10,11 @@ import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReplayMessageDTO} from '../../interfaces/Message';
+import {IErrorResponse} from '../../interfaces/errorResponse';
 
 @Component({
   selector: 'app-handle-emails',
   imports: [
-    Panel,
     NgIf,
     NgForOf,
     FloatLabel,
@@ -94,13 +93,13 @@ export class HandleEmailsComponent implements OnInit {
 
       this.sendMeMessageService.replayToMessage(data).subscribe({
         next: (resp) => {
-          console.log(resp)
+          this.toastService.show("success", "invio email", resp.message)
         },
         error: (err: HttpErrorResponse) => {
-          console.error(err.error)
+          const errResp = err.error as IErrorResponse
+          this.toastService.show("error", "invio email", errResp.errMsg)
         }
       })
-      // chiamo il service per inviare questo messaggio tramite web socket
     }
 
 
