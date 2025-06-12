@@ -9,10 +9,10 @@
           <h5 class="text-center">Send me </h5>
           <h1 class="text-center mb-3">a Message</h1>
           <form [formGroup]="sendEmailForm" (ngSubmit)="sendEmail()">
-            <p-floatlabel class="my-3" variant="on">
-              <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="email"/>
-              <label for="on_label">your email</label>
-            </p-floatlabel>
+<!--            <p-floatlabel class="my-3" variant="on">-->
+<!--              <input class="w-100" pInputText id="on_label" autocomplete="off" formControlName="email"/>-->
+<!--              <label for="on_label">your email</label>-->
+<!--            </p-floatlabel>-->
 
 
             <p-floatlabel variant="on">
@@ -29,8 +29,6 @@
 
           <div>
             <app-ul-form-errors [form]="this.sendEmailForm" [errorsType]="[
-              {errType:'required',msgErr:'fornisci una email',nomeCampoForm:'email'},
-              {errType:'pattern',msgErr:'formato email non valido',nomeCampoForm:'email'},
               {errType:'required',msgErr:'inserisci testo',nomeCampoForm:'text'}
              ]"/>
           </div>

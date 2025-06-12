@@ -26,7 +26,6 @@ import {IErrorResponse} from '../../interfaces/errorResponse';
     Button,
     RouterLink,
     LogoAppComponent,
-    InputText,
     NgIf,
     UlFormErrorsComponent,
   ],
@@ -39,10 +38,10 @@ export class SendEmailComponent {
 
 
   public sendEmailForm = new FormGroup({
-    email: new FormControl("", [
-      Validators.required,
-      Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(it|com)$")
-    ]),
+    // email: new FormControl("", [
+    //   Validators.required,
+    //   Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(it|com)$")
+    // ]),
     text: new FormControl("", Validators.required)
   })
 
@@ -63,7 +62,7 @@ export class SendEmailComponent {
       return;
     }
 
-    const sender = this.sendEmailForm.controls.email.value
+    const sender = this.authService.getEmail()
     const text = this.sendEmailForm.controls.text.value
 
     if (sender && text) {
@@ -83,6 +82,9 @@ export class SendEmailComponent {
         }
       })
 
+    } else {
+      console.error("email o messaggio null o non utilizzabili.")
     }
+
   }
 }
